@@ -1,6 +1,7 @@
 package finalproject.services.impl;
 
 import finalproject.models.entities.Office;
+import finalproject.models.entities.Town;
 import finalproject.models.serviceModels.OfficeServiceModel;
 import finalproject.repositories.OfficeRepository;
 import finalproject.services.OfficeService;
@@ -31,5 +32,11 @@ public class OfficeServiceImpl implements OfficeService {
     public List<Office> findAllOffices() {
 
         return this.officeRepository.findAll();
+    }
+
+    @Override
+    public List<Office> findAllByTown(Town town) {
+
+        return this.officeRepository.findAllByTown(town);
     }
 }

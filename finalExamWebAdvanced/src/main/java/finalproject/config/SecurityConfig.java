@@ -44,13 +44,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                .anyRequest().authenticated()
                .and()
                .formLogin()
-                .loginPage("/users/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/home")
+                    .loginPage("/users/login")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .defaultSuccessUrl("/home")
                .and()
                .logout()
-               .logoutSuccessUrl("/");
+                    .logoutUrl("/logout")
+                    .invalidateHttpSession(true)
+                    .logoutSuccessUrl("/");
+
+
 
    }
 //   @Override

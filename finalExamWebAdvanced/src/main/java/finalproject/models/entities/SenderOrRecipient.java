@@ -1,6 +1,7 @@
 package finalproject.models.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,6 +13,7 @@ public class SenderOrRecipient extends BaseEntity {
     private String email;
     private String telephoneNumber;
     private boolean isSender;
+    private Office office;
 
     public String getFirstName() {
         return firstName;
@@ -55,6 +57,16 @@ public class SenderOrRecipient extends BaseEntity {
 
     public SenderOrRecipient setSender(boolean sender) {
         isSender = sender;
+        return this;
+    }
+
+    @OneToOne
+    public Office getOffice() {
+        return office;
+    }
+
+    public SenderOrRecipient setOffice(Office office) {
+        this.office = office;
         return this;
     }
 }

@@ -3,7 +3,8 @@
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
-<body>
+<body onload="init()">
+
 <header>
     <nav class="navbar navbar-expand-lg bg-nav rounded">
         <th:block th:include="~{fragments/nav-authorized}"></th:block>
@@ -74,12 +75,31 @@
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="town" class="h4 mb-2">Town</label>
             </div>
-            <select class="browser-default custom-select" id="town" name="town">
-                <option th:each="t:${T(finalproject.models.entities.Town).values()}"
-                th:value="${t}" th:text="${t}">Select category</option>
+            <select th:name="town" class="browser-default custom-select" id="town" name="town">
+                <option>Select town</option>
+                <option
+                th:each="f:${T(finalproject.models.entities.Town).values()}"
+                th:value="${f}" th:text="${f}">Select town</option>
+
             </select>
+
             <small th:if="${#fields.hasErrors('town')}" th:each="err:${#fields.errors('town')}" th:text="${err}" class="text-danger">Town error message</small>
         </div>
+        <div  class="form-group">
+            <div class="text-white label-holder d-flex justify-content-center">
+                <label for="office" class="h4 mb-2">Office</label>
+            </div>
+            <select  class="browser-default custom-select" id="office" name="office">
+                <option
+                        id="officeName"
+                        th:each="b:${burgas}"
+                        th:value="${b.getTown()}" th:text="${b.getName()}">Select category</option>
+            </select>
+
+            <small th:if="${#fields.hasErrors('office')}" th:each="err:${#fields.errors('office')}" th:text="${err}" class="text-danger">Town error message</small>
+        </div>
+
+
 
 <!--        Recipient-->
 

@@ -1,10 +1,11 @@
 package finalproject.web;
 
 import finalproject.models.bindings.ShipmentAddBindingModel;
-import finalproject.models.entities.SenderOrRecipient;
+import finalproject.models.entities.Town;
 import finalproject.models.serviceModels.SenderOrRecipientServiceModel;
 import finalproject.models.serviceModels.ShipmentServiceModel;
 import finalproject.models.serviceModels.UserServiceModel;
+import finalproject.services.OfficeService;
 import finalproject.services.SenderOrRecipientService;
 import finalproject.services.ShipmentService;
 import finalproject.services.UserService;
@@ -12,10 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -24,12 +22,15 @@ import javax.validation.Valid;
 @RequestMapping("/shipments")
 public class ShipmentController {
 
+    private final OfficeService officeService;
     private final ShipmentService shipmentService;
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final SenderOrRecipientService sender;
 
-    public ShipmentController(ShipmentService shipmentService, UserService userService, ModelMapper modelMapper,  SenderOrRecipientService sender) {
+
+    public ShipmentController(OfficeService officeService, ShipmentService shipmentService, UserService userService, ModelMapper modelMapper, SenderOrRecipientService sender) {
+        this.officeService = officeService;
         this.shipmentService = shipmentService;
         this.userService = userService;
         this.modelMapper = modelMapper;
@@ -38,14 +39,18 @@ public class ShipmentController {
     }
 
     @GetMapping("/add")
-    public String addShipment(Model model){
+    public String addShipment(Model model,@RequestParam(value = "select",required = false) Town town){
+
+        model.addAttribute("burgas",this.officeService.findAllOffices());
         model.addAttribute("ship",new ShipmentAddBindingModel());
         return "shipment-add";
     }
 
     @PostMapping("/add")
     public String postAddSender(@Valid @ModelAttribute("ship")ShipmentAddBindingModel shipmentAddBindingModel,
-                                  BindingResult bindingResult, RedirectAttributes redirectAttributes){
+                                  BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                                Model model){
+
 
         if (bindingResult.hasErrors()){
             return "redirect:add";
@@ -64,6 +69,7 @@ public class ShipmentController {
                 senderModel.setFirstName(shipmentAddBindingModel.getFirstName());
                 senderModel.setLastName(shipmentAddBindingModel.getLastName());
                 senderModel.setSender(true);
+
 
                 SenderOrRecipientServiceModel recipientModel=new SenderOrRecipientServiceModel();
                 recipientModel.setEmail(shipmentAddBindingModel.getEmailRec());
