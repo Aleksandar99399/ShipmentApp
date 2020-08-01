@@ -1,5 +1,6 @@
 package finalproject.models.bindings;
 
+import finalproject.validation.FieldMatch;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@FieldMatch(first = "password",second = "confirmPassword", message = "The passwords do not match!")
 public class UserRegisterBindingModel {
 
     private String firstName;

@@ -16,7 +16,7 @@
     <form class="mx-auto w-25 bg-blur rounded"
           th:method="POST"
           th:action="@{/users/register}"
-        th:object="${user}">
+        th:object="${userRegisterBindingModel}">
         <div class="form-group" >
             <div  class="label-holder textCol d-flex justify-content-center">
                 <label for="firstName" class="h4 mb-2 text-white">First Name</label>
@@ -69,8 +69,9 @@
     </form>
 </main>
 
+
+</body>
 <footer class="footer bg-transparent  py-2">
     <th:block th:include="~{fragments/footer}"></th:block>
 </footer>
-</body>
 </html>

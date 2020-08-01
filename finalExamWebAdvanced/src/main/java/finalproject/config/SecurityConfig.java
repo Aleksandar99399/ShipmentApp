@@ -6,6 +6,7 @@ import finalproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +16,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
    private final MyUserDetails myUserDetails;
@@ -39,14 +41,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        http
                .authorizeRequests()
                .antMatchers("/**").permitAll()
-               .antMatchers("/users/login").permitAll()
-               .antMatchers("/users/register").permitAll()
-               .anyRequest().authenticated()
+               .antMatchers("/users/login**").permitAll()
+               .antMatchers("/users/register**").permitAll()
+               .antMatchers("/home**").authenticated()
                .and()
                .formLogin()
                     .loginPage("/users/login")
                     .usernameParameter("email")
                     .passwordParameter("password")
+                    .failureForwardUrl("/users/login-error")
                     .defaultSuccessUrl("/home")
                .and()
                .logout()

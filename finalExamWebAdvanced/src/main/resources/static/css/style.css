@@ -2,6 +2,10 @@
     width: 15%;
 }
 
+.home-paragraph{
+    color: #e9ecef;
+}
+
 .bg-gray {
     background-color: #e9ecef;
 }
@@ -27,6 +31,10 @@ footer {
     position: static;
     bottom: 0;
     width: 100%;
+}
+
+.error-details{
+    color: #e9ecef;
 }
 
 .img-thumb {

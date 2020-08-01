@@ -3,7 +3,7 @@
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
-<body onload="init()">
+<body onload="towns()" >
 
 <header>
     <nav class="navbar navbar-expand-lg bg-nav rounded">
@@ -14,7 +14,7 @@
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add shipment</span></h1>
     <hr class="hr-3 w-25 bg-white"/>
     <form class="mx-auto w-25 bg-blur rounded"
-          th:object="${ship}"
+          th:object="${shipmentAddBindingModel}"
           method="POST"
           th:action="@{/shipments/add}">
         <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Data on sender</span></h1>
@@ -71,16 +71,16 @@
             <input th:field="*{price}" type="text" class="form-control" id="price" name="price"/>
             <small th:if="${#fields.hasErrors('price')}" th:each="err:${#fields.errors('price')}" th:text="${err}" class="text-danger">Needed before date error</small>
         </div>
-        <div class="form-group">
+        <div  class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="town" class="h4 mb-2">Town</label>
             </div>
             <select th:name="town" class="browser-default custom-select" id="town" name="town">
                 <option>Select town</option>
                 <option
-                th:each="f:${T(finalproject.models.entities.Town).values()}"
-                th:value="${f}" th:text="${f}">Select town</option>
-
+                        th:each="f:${T(finalproject.models.entities.Town).values()}"
+                        th:value="${f}" th:text="${f}">Select town
+                </option>
             </select>
 
             <small th:if="${#fields.hasErrors('town')}" th:each="err:${#fields.errors('town')}" th:text="${err}" class="text-danger">Town error message</small>
@@ -93,11 +93,14 @@
                 <option
                         id="officeName"
                         th:each="b:${burgas}"
-                        th:value="${b.getTown()}" th:text="${b.getName()}">Select category</option>
+                        th:value="${b.getName()}" th:text="${b.getName()}">Select category</option>
             </select>
 
             <small th:if="${#fields.hasErrors('office')}" th:each="err:${#fields.errors('office')}" th:text="${err}" class="text-danger">Town error message</small>
+
         </div>
+
+        <p id="result">United State</p>
 
 
 
@@ -141,11 +144,24 @@
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="townRec" class="h4 mb-2">Town</label>
             </div>
-            <select class="browser-default custom-select" id="townRec" name="town">
+            <select class="browser-default custom-select" id="townRec" name="townRec">
                 <option th:each="t:${T(finalproject.models.entities.Town).values()}"
                         th:value="${t}" th:text="${t}">Select category</option>
             </select>
             <small th:if="${#fields.hasErrors('townRec')}" th:each="err:${#fields.errors('townRec')}" th:text="${err}" class="text-danger">Town error message</small>
+        </div>
+        <div  class="form-group">
+            <div class="text-white label-holder d-flex justify-content-center">
+                <label for="officeRec" class="h4 mb-2">Office</label>
+            </div>
+            <select  class="browser-default custom-select" id="officeRec" name="officeRec">
+                <option
+
+                        th:each="b:${burgas}"
+                        th:value="${b.getTown()}" th:text="${b.name}">Select category</option>
+            </select>
+
+            <small th:if="${#fields.hasErrors('officeRec')}" th:each="err:${#fields.errors('officeRec')}" th:text="${err}" class="text-danger">Town error message</small>
         </div>
 
         <div class="button-holder d-flex justify-content-center">
@@ -215,8 +231,8 @@
 
 </main>
 
+</body>
 <footer class="footer bg-transparent  py-2">
     <th:block th:include="~{fragments/footer}"></th:block>
 </footer>
-</body>
 </html>

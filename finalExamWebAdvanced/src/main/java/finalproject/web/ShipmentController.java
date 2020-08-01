@@ -1,6 +1,8 @@
 package finalproject.web;
 
+import finalproject.errors.UserNotFoundException;
 import finalproject.models.bindings.ShipmentAddBindingModel;
+import finalproject.models.entities.Shipment;
 import finalproject.models.entities.Town;
 import finalproject.models.serviceModels.SenderOrRecipientServiceModel;
 import finalproject.models.serviceModels.ShipmentServiceModel;
@@ -10,14 +12,20 @@ import finalproject.services.SenderOrRecipientService;
 import finalproject.services.ShipmentService;
 import finalproject.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYEE')")
 @Controller
 @RequestMapping("/shipments")
 public class ShipmentController {
@@ -38,28 +46,42 @@ public class ShipmentController {
 
     }
 
-    @GetMapping("/add")
-    public String addShipment(Model model,@RequestParam(value = "select",required = false) Town town){
 
-        model.addAttribute("burgas",this.officeService.findAllOffices());
-        model.addAttribute("ship",new ShipmentAddBindingModel());
-        return "shipment-add";
+    @GetMapping("/add")
+    public ModelAndView addShipment(){
+
+        ModelAndView model=new ModelAndView();
+        model.addObject("burgas",this.officeService.findAllOffices());
+        model.addObject("shipmentAddBindingModel",new ShipmentAddBindingModel());
+        model.setViewName("shipment-add");
+        return  model;
     }
 
+
     @PostMapping("/add")
-    public String postAddSender(@Valid @ModelAttribute("ship")ShipmentAddBindingModel shipmentAddBindingModel,
+    public String postAddSender(@RequestParam(value = "officeName",required = false)String officeName,
+                                @Valid @ModelAttribute("shipmentAddBindingModel")ShipmentAddBindingModel shipmentAddBindingModel,
                                   BindingResult bindingResult, RedirectAttributes redirectAttributes,
                                 Model model){
-
+        String off=shipmentAddBindingModel.getOffice();
 
         if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("shipmentAddBindingModel", shipmentAddBindingModel);
+            redirectAttributes.addFlashAttribute
+                    ("org.springframework.validation.BindingResult.shipmentAddBindingModel", bindingResult);
             return "redirect:add";
         }else {
             UserServiceModel userServiceModel =
                     this.userService.emailNotExist(shipmentAddBindingModel.getEmail());
+            UserServiceModel userServiceModelRec =
+                    this.userService.emailNotExist(shipmentAddBindingModel.getEmailRec());
 
-            if (userServiceModel==null){
-                bindingResult.rejectValue("email","email","The user is not in register");
+            if (userServiceModel==null ||userServiceModelRec==null){
+                bindingResult.rejectValue("email", "email","User not exist in Scorpio");
+
+                redirectAttributes.addFlashAttribute("shipmentAddBindingModel", shipmentAddBindingModel);
+                redirectAttributes.addFlashAttribute
+                        ("org.springframework.validation.BindingResult.shipmentAddBindingModel", bindingResult);
 
                 return "redirect:add";
             }else {

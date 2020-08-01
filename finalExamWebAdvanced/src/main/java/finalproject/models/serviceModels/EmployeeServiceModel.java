@@ -1,41 +1,37 @@
-package finalproject.models.entities;
+package finalproject.models.serviceModels;
 
-import javax.persistence.*;
+import finalproject.models.entities.Office;
+import finalproject.models.entities.Position;
+import finalproject.models.entities.User;
 
-@Entity
-@Table(name = "employees")
-public class Employee extends BaseEntity{
-
+public class EmployeeServiceModel {
     private User user;
     private Office office;
     private Position position;
 
-    @OneToOne
     public User getUser() {
         return user;
     }
 
-    public Employee setUser(User user) {
+    public EmployeeServiceModel setUser(User user) {
         this.user = user;
         return this;
     }
 
-    @ManyToOne
     public Office getOffice() {
         return office;
     }
 
-    public Employee setOffice(Office office) {
+    public EmployeeServiceModel setOffice(Office office) {
         this.office = office;
         return this;
     }
 
-    @Enumerated(EnumType.STRING)
     public Position getPosition() {
         return position;
     }
 
-    public Employee setPosition(Position position) {
+    public EmployeeServiceModel setPosition(Position position) {
         this.position = position;
         return this;
     }

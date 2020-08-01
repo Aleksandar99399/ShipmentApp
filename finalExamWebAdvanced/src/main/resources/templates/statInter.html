@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-nav rounded">
+    <th:block th:include="~{fragments/nav-authorized}"></th:block>
+</nav>
+<!-- EO: Navbar -->
+
+
+
+
+<p class="home-paragraph text-center">
+    Total request so far <span th:text="${requestCount}">1</span>
+</p>
+
+<p class="home-paragraph text-center">
+    Total request so far <span th:text="${startedOn}">22:07:2020</span>
+</p>
+
+<p class="home-paragraph text-center">
+    Have fun!
+</p>
+
+
+</body>
+</html>

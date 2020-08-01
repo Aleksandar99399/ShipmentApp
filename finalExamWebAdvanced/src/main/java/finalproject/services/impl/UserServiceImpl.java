@@ -1,5 +1,6 @@
 package finalproject.services.impl;
 
+import finalproject.errors.UserRegisterException;
 import finalproject.models.entities.Role;
 import finalproject.models.entities.Shipment;
 import finalproject.models.entities.User;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -35,10 +37,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserServiceModel userServiceModel) {
+        if (this.emailNotExist(userServiceModel.getEmail()) != null) {
+
+            throw new UserRegisterException();
+
+        }
         User user=this.modelMapper.map(userServiceModel,User.class);
         user.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
         Role roleUser=new Role();
         roleUser.setName("ROLE_USER");
+        user.setRoles(new ArrayList<>());
+        user.getRoles().add(roleUser);
 
         if (this.userRepository.count()==0){
             Role roleAdmin=new Role();
@@ -48,10 +57,6 @@ public class UserServiceImpl implements UserService {
             user.setRoles(List.of(roleAdmin,roleEmployee,roleUser));
 
 
-        }else {
-            Role simple=new Role();
-            simple.setName("ROLE_USER");
-            user.setRoles(List.of(simple));
         }
         this.userRepository.save(user);
     }
