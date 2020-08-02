@@ -10,6 +10,20 @@
         <th:block th:include="~{fragments/nav-authorized}"></th:block>
     </nav>
 </header>
+
+<script th:inline="javascript">
+    const offices = new Map([
+        /*[# th:each="town : ${towns}"]*/
+            ['[(${town.id})]', [
+                /*[# th:each="office : ${town.offices}"]*/
+                {id: '[(${office.id})]', name: '[(${office.name})]'},
+                /*[/]*/
+            ]
+            ],
+        /*[/]*/
+        ])
+</script>
+
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add shipment</span></h1>
     <hr class="hr-3 w-25 bg-white"/>
