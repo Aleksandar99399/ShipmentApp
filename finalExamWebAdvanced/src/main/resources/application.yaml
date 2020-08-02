@@ -1,4 +1,4 @@
-
+#Enviro variables
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/final_exam_web_adv?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true

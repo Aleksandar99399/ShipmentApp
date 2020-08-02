@@ -1,16 +1,10 @@
 package finalproject.web;
 
-import finalproject.errors.UserNotFoundException;
 import finalproject.models.bindings.ShipmentAddBindingModel;
-import finalproject.models.entities.Shipment;
-import finalproject.models.entities.Town;
 import finalproject.models.serviceModels.SenderOrRecipientServiceModel;
 import finalproject.models.serviceModels.ShipmentServiceModel;
 import finalproject.models.serviceModels.UserServiceModel;
-import finalproject.services.OfficeService;
-import finalproject.services.SenderOrRecipientService;
-import finalproject.services.ShipmentService;
-import finalproject.services.UserService;
+import finalproject.services.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,16 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.List;
 
 @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYEE')")
 @Controller
 @RequestMapping("/shipments")
 public class ShipmentController {
 
+    private final TownService townService;
     private final OfficeService officeService;
     private final ShipmentService shipmentService;
     private final UserService userService;
@@ -37,7 +29,8 @@ public class ShipmentController {
     private final SenderOrRecipientService sender;
 
 
-    public ShipmentController(OfficeService officeService, ShipmentService shipmentService, UserService userService, ModelMapper modelMapper, SenderOrRecipientService sender) {
+    public ShipmentController(TownService townService, OfficeService officeService, ShipmentService shipmentService, UserService userService, ModelMapper modelMapper, SenderOrRecipientService sender) {
+        this.townService = townService;
         this.officeService = officeService;
         this.shipmentService = shipmentService;
         this.userService = userService;
@@ -51,7 +44,7 @@ public class ShipmentController {
     public ModelAndView addShipment(){
 
         ModelAndView model=new ModelAndView();
-        model.addObject("burgas",this.officeService.findAllOffices());
+        model.addObject("towns",this.townService.findAllTowns());
         model.addObject("shipmentAddBindingModel",new ShipmentAddBindingModel());
         model.setViewName("shipment-add");
         return  model;

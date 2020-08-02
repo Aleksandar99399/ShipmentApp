@@ -14,7 +14,8 @@ public class Office extends BaseEntity{
     private List<Employee> employees=new ArrayList<>();
     private Town town;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name="town_id", nullable=false)
     public Town getTown() {
         return town;
     }

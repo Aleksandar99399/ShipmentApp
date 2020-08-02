@@ -3,12 +3,12 @@
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
 </head>
-<body onload="towns()" >
+<body >
 
 <header>
     <nav class="navbar navbar-expand-lg bg-nav rounded">
         <th:block th:include="~{fragments/nav-authorized}"></th:block>
-	</nav>
+    </nav>
 </header>
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add shipment</span></h1>
@@ -75,11 +75,11 @@
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="town" class="h4 mb-2">Town</label>
             </div>
-            <select th:name="town" class="browser-default custom-select" id="town" name="town">
-                <option>Select town</option>
-                <option
-                        th:each="f:${T(finalproject.models.entities.Town).values()}"
-                        th:value="${f}" th:text="${f}">Select town
+            <select class="browser-default custom-select" id="town" name="town">
+                <option value="">Choose a town</option>
+                <option th:each="town : ${towns}"
+                        th:value="${town.id}"
+                        th:text="${town.name}">
                 </option>
             </select>
 
@@ -90,21 +90,16 @@
                 <label for="office" class="h4 mb-2">Office</label>
             </div>
             <select  class="browser-default custom-select" id="office" name="office">
-                <option
-                        id="officeName"
-                        th:each="b:${burgas}"
-                        th:value="${b.getName()}" th:text="${b.getName()}">Select category</option>
+                <option value=''><strong>Choose an office</strong></option>
             </select>
 
             <small th:if="${#fields.hasErrors('office')}" th:each="err:${#fields.errors('office')}" th:text="${err}" class="text-danger">Town error message</small>
 
         </div>
 
-        <p id="result">United State</p>
 
 
-
-<!--        Recipient-->
+        <!--        Recipient-->
 
 
         <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Data on Recipient</span></h1>
@@ -140,93 +135,94 @@
         </div>
 
 
-        <div class="form-group">
-            <div class="text-white label-holder d-flex justify-content-center">
-                <label for="townRec" class="h4 mb-2">Town</label>
-            </div>
-            <select class="browser-default custom-select" id="townRec" name="townRec">
-                <option th:each="t:${T(finalproject.models.entities.Town).values()}"
-                        th:value="${t}" th:text="${t}">Select category</option>
-            </select>
-            <small th:if="${#fields.hasErrors('townRec')}" th:each="err:${#fields.errors('townRec')}" th:text="${err}" class="text-danger">Town error message</small>
-        </div>
-        <div  class="form-group">
-            <div class="text-white label-holder d-flex justify-content-center">
-                <label for="officeRec" class="h4 mb-2">Office</label>
-            </div>
-            <select  class="browser-default custom-select" id="officeRec" name="officeRec">
-                <option
+        <!--        <div class="form-group">-->
+        <!--            <div class="text-white label-holder d-flex justify-content-center">-->
+        <!--                <label for="townRec" class="h4 mb-2">Town</label>-->
+        <!--            </div>-->
+        <!--            <select class="browser-default custom-select" id="townRec" name="townRec">-->
+        <!--                <option value="">Choose a town</option>-->
+        <!--                <option th:each="town : ${towns}"-->
+        <!--                        th:value="${town.id}"-->
+        <!--                        th:text="${town.name}">-->
+        <!--                </option>-->
+        <!--            </select>-->
+        <!--            <small th:if="${#fields.hasErrors('townRec')}" th:each="err:${#fields.errors('townRec')}" th:text="${err}" class="text-danger">Town error message</small>-->
+        <!--        </div>-->
+        <!--        <div  class="form-group">-->
+        <!--            <div class="text-white label-holder d-flex justify-content-center">-->
+        <!--                <label for="officeRec" class="h4 mb-2">Office</label>-->
+        <!--            </div>-->
+        <!--            <select  class="browser-default custom-select" id="officeRec" name="officeRec">-->
+        <!--                <option value=''><strong>Choose an office</strong></option>-->
 
-                        th:each="b:${burgas}"
-                        th:value="${b.getTown()}" th:text="${b.name}">Select category</option>
-            </select>
+        <!--            </select>-->
 
-            <small th:if="${#fields.hasErrors('officeRec')}" th:each="err:${#fields.errors('officeRec')}" th:text="${err}" class="text-danger">Town error message</small>
-        </div>
+        <!--            <small th:if="${#fields.hasErrors('officeRec')}" th:each="err:${#fields.errors('officeRec')}" th:text="${err}" class="text-danger">Town error message</small>-->
+        <!--        </div>-->
 
-        <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning  mb-3"  value="Continue to Recipient">Finish Shipment</button>
-        </div>
-<!--        <div class="button-holder d-flex justify-content-center">&ndash;&gt;-->
-<!--            <button type="submit" class="btn btn-warning  mb-3"  value="Continue to Recipient">Finish Shipment</button>&ndash;&gt;-->
-<!--        </div>-->
+        <!--        <div class="button-holder d-flex justify-content-center">-->
+        <!--            <button type="submit" class="btn btn-warning  mb-3"  value="Continue to Recipient">Finish Shipment</button>-->
+        <!--        </div>-->
+        <!--        <div class="button-holder d-flex justify-content-center">&ndash;&gt;-->
+        <!--            <button type="submit" class="btn btn-warning  mb-3"  value="Continue to Recipient">Finish Shipment</button>&ndash;&gt;-->
+        <!--        </div>-->
 
     </form>
 
 
-<!--    <form class="mx-auto w-25 bg-blur rounded"-->
-<!--          th:object="${ship}"-->
-<!--          method="POST"-->
-<!--          th:action="@{/shipments/add}">-->
-<!--        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Data on Recipient</span></h1>-->
-<!--        <div class="form-group">-->
-<!--            <div class="label-holder textCol d-flex justify-content-center">-->
-<!--                <label for="telephoneNumberRec" class="h4 mb-2 text-white">Telephone number</label>-->
-<!--            </div>-->
-<!--            <input th:field="*{telephoneNumberRec}" type="text" class="form-control" id="telephoneNumberRec" name="telephoneNumberRec"/>-->
-<!--            <small th:if="${#fields.hasErrors('telephoneNumberRec')}" th:each="err:${#fields.errors('telephoneNumberRec')}" th:text="${err}"-->
-<!--                   class="text-danger"> Name error</small>-->
-<!--        </div>-->
-<!--        <div class="form-group">-->
-<!--            <div class="label-holder textCol d-flex justify-content-center">-->
-<!--                <label for="emailRec" class="h4 mb-2 text-white">Email</label>-->
-<!--            </div>-->
-<!--            <input th:field="*{emailRec}" type="text" class="form-control" id="emailRec" name="emailRec"/>-->
-<!--            <small th:if="${#fields.hasErrors('emailRec')}" th:each="err:${#fields.errors('emailRec')}" th:text="${err}"-->
-<!--                   class="text-danger"> Name error</small>-->
-<!--        </div>-->
+    <!--    <form class="mx-auto w-25 bg-blur rounded"-->
+    <!--          th:object="${ship}"-->
+    <!--          method="POST"-->
+    <!--          th:action="@{/shipments/add}">-->
+    <!--        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Data on Recipient</span></h1>-->
+    <!--        <div class="form-group">-->
+    <!--            <div class="label-holder textCol d-flex justify-content-center">-->
+    <!--                <label for="telephoneNumberRec" class="h4 mb-2 text-white">Telephone number</label>-->
+    <!--            </div>-->
+    <!--            <input th:field="*{telephoneNumberRec}" type="text" class="form-control" id="telephoneNumberRec" name="telephoneNumberRec"/>-->
+    <!--            <small th:if="${#fields.hasErrors('telephoneNumberRec')}" th:each="err:${#fields.errors('telephoneNumberRec')}" th:text="${err}"-->
+    <!--                   class="text-danger"> Name error</small>-->
+    <!--        </div>-->
+    <!--        <div class="form-group">-->
+    <!--            <div class="label-holder textCol d-flex justify-content-center">-->
+    <!--                <label for="emailRec" class="h4 mb-2 text-white">Email</label>-->
+    <!--            </div>-->
+    <!--            <input th:field="*{emailRec}" type="text" class="form-control" id="emailRec" name="emailRec"/>-->
+    <!--            <small th:if="${#fields.hasErrors('emailRec')}" th:each="err:${#fields.errors('emailRec')}" th:text="${err}"-->
+    <!--                   class="text-danger"> Name error</small>-->
+    <!--        </div>-->
 
-<!--        <div class="form-group">-->
-<!--            <div class="label-holder text-white textCol d-flex justify-content-center">-->
-<!--                <label for="firstNameRec" class="h4 mb-2">First name</label>-->
-<!--            </div>-->
-<!--            <input th:field="*{firstNameRec}" type="text" class="form-control" id="firstNameRec" name="firstNameRec"/>-->
-<!--            <small th:if="${#fields.hasErrors('firstNameRec')}" th:each="err:${#fields.errors('firstNameRec')}" th:text="${err}" class="text-danger">Needed before date error</small>-->
-<!--        </div>-->
-<!--        <div class="form-group">-->
-<!--            <div class="label-holder text-white textCol d-flex justify-content-center">-->
-<!--                <label for="lastNameRec" class="h4 mb-2">Last name</label>-->
-<!--            </div>-->
-<!--            <input th:field="*{lastNameRec}" type="text" class="form-control" id="lastNameRec" name="lastNameRec"/>-->
-<!--            <small th:if="${#fields.hasErrors('lastNameRec')}" th:each="err:${#fields.errors('lastNameRec')}" th:text="${err}" class="text-danger">Needed before date error</small>-->
-<!--        </div>-->
+    <!--        <div class="form-group">-->
+    <!--            <div class="label-holder text-white textCol d-flex justify-content-center">-->
+    <!--                <label for="firstNameRec" class="h4 mb-2">First name</label>-->
+    <!--            </div>-->
+    <!--            <input th:field="*{firstNameRec}" type="text" class="form-control" id="firstNameRec" name="firstNameRec"/>-->
+    <!--            <small th:if="${#fields.hasErrors('firstNameRec')}" th:each="err:${#fields.errors('firstNameRec')}" th:text="${err}" class="text-danger">Needed before date error</small>-->
+    <!--        </div>-->
+    <!--        <div class="form-group">-->
+    <!--            <div class="label-holder text-white textCol d-flex justify-content-center">-->
+    <!--                <label for="lastNameRec" class="h4 mb-2">Last name</label>-->
+    <!--            </div>-->
+    <!--            <input th:field="*{lastNameRec}" type="text" class="form-control" id="lastNameRec" name="lastNameRec"/>-->
+    <!--            <small th:if="${#fields.hasErrors('lastNameRec')}" th:each="err:${#fields.errors('lastNameRec')}" th:text="${err}" class="text-danger">Needed before date error</small>-->
+    <!--        </div>-->
 
 
-<!--        <div class="form-group">-->
-<!--            <div class="text-white label-holder d-flex justify-content-center">-->
-<!--                <label for="townRec" class="h4 mb-2">Town</label>-->
-<!--            </div>-->
-<!--            <select class="browser-default custom-select" id="townRec" name="town">-->
-<!--                <option th:each="t:${T(finalproject.models.entities.Town).values()}"-->
-<!--                        th:value="${t}" th:text="${t}">Select category</option>-->
-<!--            </select>-->
-<!--            <small th:if="${#fields.hasErrors('townRec')}" th:each="err:${#fields.errors('townRec')}" th:text="${err}" class="text-danger">Town error message</small>-->
-<!--        </div>-->
+    <!--        <div class="form-group">-->
+    <!--            <div class="text-white label-holder d-flex justify-content-center">-->
+    <!--                <label for="townRec" class="h4 mb-2">Town</label>-->
+    <!--            </div>-->
+    <!--            <select class="browser-default custom-select" id="townRec" name="town">-->
+    <!--                <option th:each="t:${T(finalproject.models.entities.Town).values()}"-->
+    <!--                        th:value="${t}" th:text="${t}">Select category</option>-->
+    <!--            </select>-->
+    <!--            <small th:if="${#fields.hasErrors('townRec')}" th:each="err:${#fields.errors('townRec')}" th:text="${err}" class="text-danger">Town error message</small>-->
+    <!--        </div>-->
 
-<!--        <div class="button-holder d-flex justify-content-center">-->
-<!--            <button type="submit" class="btn btn-warning  mb-3"  value="Continue to Recipient">Finish Shipment</button>-->
-<!--        </div>-->
-<!--    </form>-->
+    <!--        <div class="button-holder d-flex justify-content-center">-->
+    <!--            <button type="submit" class="btn btn-warning  mb-3"  value="Continue to Recipient">Finish Shipment</button>-->
+    <!--        </div>-->
+    <!--    </form>-->
 
 
 </main>
