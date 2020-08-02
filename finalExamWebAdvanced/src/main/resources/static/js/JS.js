@@ -1,14 +1,3 @@
-const offices = new Map([
-    /*[# th:each="city : ${cities}"]*/
-    ['[(${town.id})]', [
-        /*[# th:each="office : ${city.offices}"]*/
-        {id: '[(${office.id})]', name: '[(${office.name})]'},
-        /*[/]*/
-    ]
-    ],
-    /*[/]*/
-]);
-
 $(document).ready(function () {
     $('#town').change(function () {
         //clean up the options
