@@ -17,4 +17,6 @@ public interface OfficeService {
     OfficeServiceModel findByName(String name);
 
     OfficeServiceModel findById(String id);
+
+    Office getOfficeFromDb(Office office);
 }

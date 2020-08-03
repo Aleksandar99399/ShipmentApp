@@ -1,8 +1,8 @@
 package finalproject.services.impl;
 
+import finalproject.errors.UserNotFoundException;
 import finalproject.errors.UserRegisterException;
 import finalproject.models.entities.Role;
-import finalproject.models.entities.Shipment;
 import finalproject.models.entities.User;
 import finalproject.models.serviceModels.UserServiceModel;
 import finalproject.repositories.UserRepository;
@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -69,8 +68,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUserRole(User user) {
-        this.userRepository.save(user);
+    public User saveUserRole(User user) {
+        User updateUser=userRepository.findByEmail(user.getEmail()).orElseThrow(UserNotFoundException::new);
+        Role role=new Role();
+        role.setName("ROLE_EMPLOYEE");
+        updateUser.getRoles().add(role);
+        return this.userRepository.save(updateUser);
     }
 
 

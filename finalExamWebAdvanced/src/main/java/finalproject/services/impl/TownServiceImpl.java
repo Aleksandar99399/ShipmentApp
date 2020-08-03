@@ -30,4 +30,10 @@ public class TownServiceImpl implements TownService {
                 .map(t->this.modelMapper.map(t,TownServiceModel.class))
                 .orElse(null);
     }
+
+    @Override
+    public Town findByName(String name) {
+
+        return this.townRepository.findByName(name).orElse(null);
+    }
 }

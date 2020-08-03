@@ -20,7 +20,7 @@ public class Employee extends BaseEntity{
         return this;
     }
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Office getOffice() {
         return office;
     }
