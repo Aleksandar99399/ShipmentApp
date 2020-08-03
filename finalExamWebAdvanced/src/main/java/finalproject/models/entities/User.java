@@ -25,8 +25,6 @@ public class User extends BaseEntity{
     private String telephoneNumber;
     private String password;
     private List<Role> role =new ArrayList<>();
-    private SenderOrRecipient senderOrRecipient;
-    private List<Shipment> shipments=new ArrayList<>();
 
     public User() {
     }

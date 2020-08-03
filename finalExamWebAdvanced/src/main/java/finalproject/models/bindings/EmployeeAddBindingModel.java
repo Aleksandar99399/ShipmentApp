@@ -14,8 +14,8 @@ import javax.validation.constraints.Size;
 public class EmployeeAddBindingModel {
 
     private String email;
-    private Town town;
-    private Office office;
+    private String town;
+    private String office;
     private Position position;
 
     @Size(min = 1,message = "The email cannot be empty!")
@@ -29,32 +29,31 @@ public class EmployeeAddBindingModel {
         return this;
     }
 
-    @Enumerated(EnumType.STRING)
-    public Town getTown() {
-        return town;
-    }
-
-    public EmployeeAddBindingModel setTown(Town town) {
+    public EmployeeAddBindingModel setTown(String town) {
         this.town = town;
         return this;
-    }
-
-    public Office getOffice() {
-        return office;
-    }
-
-    public EmployeeAddBindingModel setOffice(Office office) {
-        this.office = office;
-        return this;
-    }
-
-    @NotNull
-    public Position getPosition() {
-        return position;
     }
 
     public EmployeeAddBindingModel setPosition(Position position) {
         this.position = position;
         return this;
+    }
+
+    public String getOffice() {
+        return office;
+    }
+
+    public EmployeeAddBindingModel setOffice(String office) {
+        this.office = office;
+        return this;
+    }
+
+    public String getTown() {
+        return town;
+    }
+
+    @Enumerated(EnumType.STRING)
+    public Position getPosition() {
+        return position;
     }
 }

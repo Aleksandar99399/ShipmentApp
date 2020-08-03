@@ -39,4 +39,20 @@ public class OfficeServiceImpl implements OfficeService {
 
         return this.officeRepository.findAllByTown(town);
     }
+
+    @Override
+    public OfficeServiceModel findByName(String name) {
+
+        return this.officeRepository.findByName(name).
+                map(o->this.modelMapper.map(o,OfficeServiceModel.class))
+                .orElse(null);
+
+    }
+
+    @Override
+    public OfficeServiceModel findById(String id) {
+        return this.officeRepository.findById(id)
+                .map(o->this.modelMapper.map(o,OfficeServiceModel.class))
+                .orElse(null);
+    }
 }

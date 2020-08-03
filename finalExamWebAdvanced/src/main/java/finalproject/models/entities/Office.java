@@ -11,7 +11,6 @@ import java.util.List;
 public class Office extends BaseEntity{
 
     private String name;
-    private List<Employee> employees=new ArrayList<>();
     private Town town;
 
     @ManyToOne
@@ -26,6 +25,7 @@ public class Office extends BaseEntity{
     }
 
     @Length(min = 4,message = "Office name should be more 3 characters")
+    @Column(name = "name",unique = true)
     public String getName() {
         return name;
     }
@@ -35,13 +35,4 @@ public class Office extends BaseEntity{
         return this;
     }
 
-    @OneToMany
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public Office setEmployees(List<Employee> employees) {
-        this.employees = employees;
-        return this;
-    }
 }

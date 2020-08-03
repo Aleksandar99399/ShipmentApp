@@ -17,6 +17,7 @@ public class Shipment extends BaseEntity{
     private double weight;
     private BigDecimal price;
     private List<SenderOrRecipient> senderOrRecipients=new ArrayList<>();
+    private List<Office> offices;
 
 
 
@@ -99,6 +100,7 @@ public class Shipment extends BaseEntity{
 //    }
 
 
+
     @OneToMany(cascade = CascadeType.ALL)
     public List<SenderOrRecipient> getSenderOrRecipients() {
         return senderOrRecipients;
@@ -106,6 +108,16 @@ public class Shipment extends BaseEntity{
 
     public Shipment setSenderOrRecipients(List<SenderOrRecipient> senderOrRecipients) {
         this.senderOrRecipients = senderOrRecipients;
+        return this;
+    }
+
+    @ManyToMany
+    public List<Office> getOffices() {
+        return offices;
+    }
+
+    public Shipment setOffices(List<Office> offices) {
+        this.offices = offices;
         return this;
     }
 }

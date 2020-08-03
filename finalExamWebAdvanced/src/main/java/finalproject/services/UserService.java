@@ -1,6 +1,7 @@
 package finalproject.services;
 
 import finalproject.models.entities.Shipment;
+import finalproject.models.entities.User;
 import finalproject.models.serviceModels.UserServiceModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -11,4 +12,6 @@ public interface UserService {
     void register(UserServiceModel userServiceModel);
 
     void addShip(UserServiceModel userServiceModel);
+
+    void saveUserRole(User user);
 }

@@ -1,5 +1,7 @@
 package finalproject.models.serviceModels;
 
+import finalproject.models.entities.Office;
+
 public class SenderOrRecipientServiceModel {
     private String firstName;
     private String lastName;
@@ -51,4 +53,5 @@ public class SenderOrRecipientServiceModel {
         isSender = sender;
         return this;
     }
+
 }

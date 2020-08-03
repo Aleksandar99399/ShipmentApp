@@ -1,21 +1,19 @@
 package finalproject.models.serviceModels;
 
+import finalproject.models.entities.Office;
 import finalproject.models.entities.SenderOrRecipient;
 import finalproject.models.entities.User;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShipmentServiceModel {
     private String description;
     private double weight;
     private BigDecimal price;
-//    private String firstName;
-//    private String lastName;
-//    private String email;
-//    private String telephoneNumber;
-//    private boolean isSender;
-    private List<SenderOrRecipient> senderOrRecipients;
+    private List<SenderOrRecipient> senderOrRecipients=new ArrayList<>();
+    private List<Office> offices;
 
     public String getDescription() {
         return description;
@@ -54,48 +52,12 @@ public class ShipmentServiceModel {
         return this;
     }
 
-    //    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public ShipmentServiceModel setFirstName(String firstName) {
-//        this.firstName = firstName;
-//        return this;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public ShipmentServiceModel setLastName(String lastName) {
-//        this.lastName = lastName;
-//        return this;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public ShipmentServiceModel setEmail(String email) {
-//        this.email = email;
-//        return this;
-//    }
-//
-//    public String getTelephoneNumber() {
-//        return telephoneNumber;
-//    }
-//
-//    public ShipmentServiceModel setTelephoneNumber(String telephoneNumber) {
-//        this.telephoneNumber = telephoneNumber;
-//        return this;
-//    }
-//
-//    public boolean isSender() {
-//        return isSender;
-//    }
-//
-//    public ShipmentServiceModel setSender(boolean sender) {
-//        isSender = sender;
-//        return this;
-//    }
+    public List<Office> getOffices() {
+        return offices;
+    }
+
+    public ShipmentServiceModel setOffices(List<Office> offices) {
+        this.offices = offices;
+        return this;
+    }
 }

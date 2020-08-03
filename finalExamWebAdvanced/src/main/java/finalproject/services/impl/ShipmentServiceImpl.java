@@ -1,8 +1,9 @@
 package finalproject.services.impl;
 
+import finalproject.models.entities.Office;
 import finalproject.models.entities.SenderOrRecipient;
 import finalproject.models.entities.Shipment;
-import finalproject.models.entities.User;
+import finalproject.models.serviceModels.OfficeServiceModel;
 import finalproject.models.serviceModels.SenderOrRecipientServiceModel;
 import finalproject.models.serviceModels.ShipmentServiceModel;
 import finalproject.models.serviceModels.UserServiceModel;
@@ -12,7 +13,6 @@ import finalproject.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,10 +30,13 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     @Override
     public ShipmentServiceModel addSender(ShipmentServiceModel shipSerMod,
-                                          SenderOrRecipientServiceModel sender,SenderOrRecipientServiceModel recipient) {
+                                          SenderOrRecipientServiceModel sender, SenderOrRecipientServiceModel recipient, OfficeServiceModel officeSender, OfficeServiceModel officeRecipient) {
         Shipment shipment=this.modelMapper.map(shipSerMod,Shipment.class);
+
+
         shipment.setSenderOrRecipients(List.of(this.modelMapper.map(sender,SenderOrRecipient.class),
                 this.modelMapper.map(recipient,SenderOrRecipient.class)));
+
 
         this.shipmentRepository.save(shipment);
 

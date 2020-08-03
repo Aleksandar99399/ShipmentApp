@@ -16,13 +16,13 @@ public class ShipmentAddBindingModel {
     private double weight;
     private BigDecimal price;
     private String description;
-    private Town town;
+    private String town;
     private String office;
     private String telephoneNumberRec;
     private String emailRec;
     private String firstNameRec;
     private String lastNameRec;
-    private Town townRec;
+    private String  townRec;
     private String officeRec;
 
     @Pattern(regexp = "^[0-9\\-\\+]{10}$",message = "Enter valid telephone number")
@@ -97,11 +97,11 @@ public class ShipmentAddBindingModel {
         return this;
     }
 
-    public Town getTown() {
+    public String getTown() {
         return town;
     }
 
-    public ShipmentAddBindingModel setTown(Town town) {
+    public ShipmentAddBindingModel setTown(String town) {
         this.town = town;
         return this;
     }
@@ -155,11 +155,11 @@ public class ShipmentAddBindingModel {
         return this;
     }
 
-    public Town getTownRec() {
+    public String getTownRec() {
         return townRec;
     }
 
-    public ShipmentAddBindingModel setTownRec(Town townRec) {
+    public ShipmentAddBindingModel setTownRec(String townRec) {
         this.townRec = townRec;
         return this;
     }

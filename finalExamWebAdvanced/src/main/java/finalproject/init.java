@@ -22,22 +22,24 @@ public class init implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Town sofia = new Town().setName("Sofia");
-        Office mladost = new Office().setTown(sofia).setName("Mladost");
-        Office lulin = new Office().setTown(sofia).setName("Lulin");
-        Office centre = new Office().setTown(sofia).setName("Centre");
-        sofia.setOffices(List.of(mladost, lulin, centre));
+        if (townRepository.count()==0) {
+            Town sofia = new Town().setName("Sofia");
+            Office mladost = new Office().setTown(sofia).setName("Mladost");
+            Office lulin = new Office().setTown(sofia).setName("Lulin");
+            Office centre = new Office().setTown(sofia).setName("Centre");
+            sofia.setOffices(List.of(mladost, lulin, centre));
 
-        Town plovdiv = new Town().setName("Plovdiv");
-        Office trakiq = new Office().setTown(plovdiv).setName("Trakiq");
-        Office smirnenski = new Office().setTown(plovdiv).setName("Smirnenski");
-        plovdiv.setOffices(List.of(trakiq, smirnenski));
+            Town plovdiv = new Town().setName("Plovdiv");
+            Office trakiq = new Office().setTown(plovdiv).setName("Trakiq");
+            Office smirnenski = new Office().setTown(plovdiv).setName("Smirnenski");
+            plovdiv.setOffices(List.of(trakiq, smirnenski));
 
-        Town varna = new Town().setName("Varna");
-        Office asparuhovo = new Office().setTown(varna).setName("Asparuhovo");
-        Office galata = new Office().setTown(varna).setName("Galata");
-        varna.setOffices(List.of(asparuhovo, galata));
+            Town varna = new Town().setName("Varna");
+            Office asparuhovo = new Office().setTown(varna).setName("Asparuhovo");
+            Office galata = new Office().setTown(varna).setName("Galata");
+            varna.setOffices(List.of(asparuhovo, galata));
 
-        townRepository.saveAll(List.of(sofia, plovdiv, varna));
+            townRepository.saveAll(List.of(sofia, plovdiv, varna));
+        }
     }
 }

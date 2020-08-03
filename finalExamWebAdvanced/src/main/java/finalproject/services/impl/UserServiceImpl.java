@@ -68,6 +68,10 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public void saveUserRole(User user) {
+        this.userRepository.save(user);
+    }
 
 
 }

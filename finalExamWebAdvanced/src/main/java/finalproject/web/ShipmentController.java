@@ -1,9 +1,8 @@
 package finalproject.web;
 
 import finalproject.models.bindings.ShipmentAddBindingModel;
-import finalproject.models.serviceModels.SenderOrRecipientServiceModel;
-import finalproject.models.serviceModels.ShipmentServiceModel;
-import finalproject.models.serviceModels.UserServiceModel;
+import finalproject.models.entities.Office;
+import finalproject.models.serviceModels.*;
 import finalproject.services.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,6 +44,8 @@ public class ShipmentController {
 
         ModelAndView model=new ModelAndView();
         model.addObject("towns",this.townService.findAllTowns());
+        model.addObject("townsRec",this.townService.findAllTowns());
+
         model.addObject("shipmentAddBindingModel",new ShipmentAddBindingModel());
         model.setViewName("shipment-add");
         return  model;
@@ -52,11 +53,9 @@ public class ShipmentController {
 
 
     @PostMapping("/add")
-    public String postAddSender(@RequestParam(value = "officeName",required = false)String officeName,
-                                @Valid @ModelAttribute("shipmentAddBindingModel")ShipmentAddBindingModel shipmentAddBindingModel,
+    public String postAddSender(@Valid @ModelAttribute("shipmentAddBindingModel")ShipmentAddBindingModel shipmentAddBindingModel,
                                   BindingResult bindingResult, RedirectAttributes redirectAttributes,
                                 Model model){
-        String off=shipmentAddBindingModel.getOffice();
 
         if (bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("shipmentAddBindingModel", shipmentAddBindingModel);
@@ -69,6 +68,10 @@ public class ShipmentController {
             UserServiceModel userServiceModelRec =
                     this.userService.emailNotExist(shipmentAddBindingModel.getEmailRec());
 
+            OfficeServiceModel officeSender=this.officeService.findById(shipmentAddBindingModel.getOffice());
+            OfficeServiceModel officeRecipient=this.officeService.findById(shipmentAddBindingModel.getOfficeRec());
+
+
             if (userServiceModel==null ||userServiceModelRec==null){
                 bindingResult.rejectValue("email", "email","User not exist in Scorpio");
 
@@ -77,7 +80,15 @@ public class ShipmentController {
                         ("org.springframework.validation.BindingResult.shipmentAddBindingModel", bindingResult);
 
                 return "redirect:add";
-            }else {
+            }else if (officeSender==null || officeRecipient==null){
+                bindingResult.rejectValue("office","office","Office is invalid");
+                redirectAttributes.addFlashAttribute("shipmentAddBindingModel", shipmentAddBindingModel);
+                redirectAttributes.addFlashAttribute
+                        ("org.springframework.validation.BindingResult.shipmentAddBindingModel", bindingResult);
+
+                return "redirect:add";
+            } else {
+
                 SenderOrRecipientServiceModel senderModel=new SenderOrRecipientServiceModel();
                 senderModel.setEmail(shipmentAddBindingModel.getEmail());
                 senderModel.setTelephoneNumber(shipmentAddBindingModel.getTelephoneNumber());
@@ -92,7 +103,9 @@ public class ShipmentController {
                 recipientModel.setFirstName(shipmentAddBindingModel.getFirstNameRec());
                 recipientModel.setLastName(shipmentAddBindingModel.getLastNameRec());
                 recipientModel.setSender(false);
-                this.shipmentService.addSender(this.modelMapper.map(shipmentAddBindingModel,ShipmentServiceModel.class), senderModel,recipientModel);
+
+
+                this.shipmentService.addSender(this.modelMapper.map(shipmentAddBindingModel,ShipmentServiceModel.class), senderModel,recipientModel,officeSender,officeRecipient);
 
                 return "redirect:/home";
             }

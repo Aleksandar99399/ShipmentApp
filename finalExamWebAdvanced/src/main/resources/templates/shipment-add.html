@@ -10,6 +10,29 @@
         <th:block th:include="~{fragments/nav-authorized}"></th:block>
     </nav>
 </header>
+<script th:inline="javascript">
+    const offices = new Map([
+        /*[# th:each="town : ${towns}"]*/
+        ['[(${town.id})]', [
+            /*[# th:each="office : ${town.offices}"]*/
+            {id: '[(${office.id})]', name: '[(${office.name})]'},
+            /*[/]*/
+        ]
+        ],
+        /*[/]*/
+    ]);
+
+    const officesRec = new Map([
+        /*[# th:each="town : ${towns}"]*/
+        ['[(${town.id})]', [
+            /*[# th:each="office : ${town.offices}"]*/
+            {id: '[(${office.id})]', name: '[(${office.name})]'},
+            /*[/]*/
+        ]
+        ],
+        /*[/]*/
+    ])
+</script>
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add shipment</span></h1>
     <hr class="hr-3 w-25 bg-white"/>
@@ -85,11 +108,11 @@
 
             <small th:if="${#fields.hasErrors('town')}" th:each="err:${#fields.errors('town')}" th:text="${err}" class="text-danger">Town error message</small>
         </div>
-        <div  class="form-group">
+        <div   class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="office" class="h4 mb-2">Office</label>
             </div>
-            <select  class="browser-default custom-select" id="office" name="office">
+            <select th:field="*{office}"  class="browser-default custom-select" id="office" name="office">
                 <option value=''><strong>Choose an office</strong></option>
             </select>
 
@@ -135,34 +158,36 @@
         </div>
 
 
-        <!--        <div class="form-group">-->
-        <!--            <div class="text-white label-holder d-flex justify-content-center">-->
-        <!--                <label for="townRec" class="h4 mb-2">Town</label>-->
-        <!--            </div>-->
-        <!--            <select class="browser-default custom-select" id="townRec" name="townRec">-->
-        <!--                <option value="">Choose a town</option>-->
-        <!--                <option th:each="town : ${towns}"-->
-        <!--                        th:value="${town.id}"-->
-        <!--                        th:text="${town.name}">-->
-        <!--                </option>-->
-        <!--            </select>-->
-        <!--            <small th:if="${#fields.hasErrors('townRec')}" th:each="err:${#fields.errors('townRec')}" th:text="${err}" class="text-danger">Town error message</small>-->
-        <!--        </div>-->
-        <!--        <div  class="form-group">-->
-        <!--            <div class="text-white label-holder d-flex justify-content-center">-->
-        <!--                <label for="officeRec" class="h4 mb-2">Office</label>-->
-        <!--            </div>-->
-        <!--            <select  class="browser-default custom-select" id="officeRec" name="officeRec">-->
-        <!--                <option value=''><strong>Choose an office</strong></option>-->
+        <div class="form-group">
+            <div class="text-white label-holder d-flex justify-content-center">
+                <label for="townRec" class="h4 mb-2">Town</label>
+            </div>
+            <select class="browser-default custom-select" id="townRec" name="townRec">
+                <option value="">Choose a town</option>
+                <option th:each="townRec : ${townsRec}"
+                        th:value="${townRec.id}"
+                        th:text="${townRec.name}">
+                </option>
+            </select>
+            <small th:if="${#fields.hasErrors('townRec')}" th:each="err:${#fields.errors('townRec')}" th:text="${err}"
+                   class="text-danger">Town error message</small>
+        </div>
+        <div class="form-group">
+            <div class="text-white label-holder d-flex justify-content-center">
+                <label for="officeRec" class="h4 mb-2">Office</label>
+            </div>
+            <select th:field="*{officeRec}" class="browser-default custom-select" id="officeRec" name="officeRec">
+                <option value=''><strong>Choose an office</strong></option>
 
-        <!--            </select>-->
+            </select>
 
-        <!--            <small th:if="${#fields.hasErrors('officeRec')}" th:each="err:${#fields.errors('officeRec')}" th:text="${err}" class="text-danger">Town error message</small>-->
-        <!--        </div>-->
+            <small th:if="${#fields.hasErrors('officeRec')}" th:each="err:${#fields.errors('officeRec')}"
+                   th:text="${err}" class="text-danger">Town error message</small>
+        </div>
 
-        <!--        <div class="button-holder d-flex justify-content-center">-->
-        <!--            <button type="submit" class="btn btn-warning  mb-3"  value="Continue to Recipient">Finish Shipment</button>-->
-        <!--        </div>-->
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn btn-warning  mb-3" value="Continue to Recipient">Finish Shipment</button>
+        </div>
         <!--        <div class="button-holder d-flex justify-content-center">&ndash;&gt;-->
         <!--            <button type="submit" class="btn btn-warning  mb-3"  value="Continue to Recipient">Finish Shipment</button>&ndash;&gt;-->
         <!--        </div>-->

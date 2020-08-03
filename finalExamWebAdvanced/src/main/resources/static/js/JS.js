@@ -1,14 +1,3 @@
-const offices = new Map([
-    /*[# th:each="city : ${cities}"]*/
-    ['[(${town.id})]', [
-        /*[# th:each="office : ${city.offices}"]*/
-        {id: '[(${office.id})]', name: '[(${office.name})]'},
-        /*[/]*/
-    ]
-    ],
-    /*[/]*/
-]);
-
 $(document).ready(function () {
     $('#town').change(function () {
         //clean up the options
@@ -20,11 +9,31 @@ $(document).ready(function () {
         //get the city id and fill in offices
         let cityId = $(this).val();
         if (cityId) {
-            let options = ''
+            let options = '';
             offices.get(cityId).forEach(function(value, idx) {
                 options += '<option value="'+value.id+'">'+value.name+'</option>';
-            })
+            });
             $('#office').append(options)
+        }
+    });
+});
+
+$(document).ready(function () {
+    $('#townRec').change(function () {
+        //clean up the options
+        $('#officeRec > option').each(function () {
+            if ($(this).val()) {
+                $(this).remove();
+            }
+        });
+        //get the city id and fill in offices
+        let cityId = $(this).val();
+        if (cityId) {
+            let options = '';
+            officesRec.get(cityId).forEach(function(value, idx) {
+                options += '<option value="'+value.id+'">'+value.name+'</option>';
+            });
+            $('#officeRec').append(options)
         }
     });
 });

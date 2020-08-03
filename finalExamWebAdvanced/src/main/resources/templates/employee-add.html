@@ -10,6 +10,19 @@
     </nav>
 
 </header>
+<script th:inline="javascript">
+    const offices = new Map([
+        /*[# th:each="town : ${towns}"]*/
+        ['[(${town.id})]', [
+            /*[# th:each="office : ${town.offices}"]*/
+            {id: '[(${office.id})]', name: '[(${office.name})]'},
+            /*[/]*/
+        ]
+        ],
+        /*[/]*/
+    ]);
+
+</script>
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add Employee in Office</span></h1>
     <hr class="hr-3 w-25 bg-white"/>
@@ -26,28 +39,30 @@
 
             <small th:if="${#fields.hasErrors('email')}" th:each="err:${#fields.errors('email')}" th:text="${err}" class="text-danger">Email error message</small>
         </div>
-        <div class="form-group">
+        <div  class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="town" class="h4 mb-2">Town</label>
             </div>
             <select class="browser-default custom-select" id="town" name="town">
-                <option th:each="t:${T(finalproject.models.entities.Town).values()}"
-                        th:value="${t}" th:text="${t}">Select category</option>
+                <option value="">Choose a town</option>
+                <option th:each="town : ${towns}"
+                        th:value="${town.id}"
+                        th:text="${town.name}">
+                </option>
             </select>
+
             <small th:if="${#fields.hasErrors('town')}" th:each="err:${#fields.errors('town')}" th:text="${err}" class="text-danger">Town error message</small>
         </div>
-        <div  class="form-group">
+        <div   class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="office" class="h4 mb-2">Office</label>
             </div>
-            <select  class="browser-default custom-select" id="office" name="office">
-                <option
-                        id="officeName"
-                        th:each="b:${offices}"
-                        th:value="${b.getTown()}" th:text="${b.getName()}">Select category</option>
+            <select th:field="*{office}"  class="browser-default custom-select" id="office" name="office">
+                <option value=''><strong>Choose an office</strong></option>
             </select>
 
-            <small th:if="${#fields.hasErrors('office')}" th:each="err:${#fields.errors('office')}" th:text="${err}" class="text-danger">Office error message</small>
+            <small th:if="${#fields.hasErrors('office')}" th:each="err:${#fields.errors('office')}" th:text="${err}" class="text-danger">Town error message</small>
+
         </div>
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">

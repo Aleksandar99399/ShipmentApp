@@ -14,4 +14,8 @@ public interface OfficeRepository extends JpaRepository<Office,String> {
 
     List<Office>findAllByTown(Town town);
 
+    Optional<Office>findByName(String name);
+
+    Optional<Office>findById(String id);
+
 }

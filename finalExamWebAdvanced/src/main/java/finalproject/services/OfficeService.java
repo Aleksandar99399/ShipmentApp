@@ -13,4 +13,8 @@ public interface OfficeService {
     List<Office> findAllOffices();
 
     List<Office> findAllByTown(Town town);
+
+    OfficeServiceModel findByName(String name);
+
+    OfficeServiceModel findById(String id);
 }
