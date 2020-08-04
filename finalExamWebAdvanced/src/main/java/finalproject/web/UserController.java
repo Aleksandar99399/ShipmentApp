@@ -50,7 +50,6 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
 
-
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
             redirectAttributes.addFlashAttribute
                     ("org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);

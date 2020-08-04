@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -32,20 +33,30 @@ public class OfficeController {
     }
 
     @GetMapping("/add")
-    public String addOffice(Model model){
-        model.addAttribute("towns",this.townService.findAllTowns());
-        model.addAttribute("office",new OfficeAddBindingModel());
+    public String addOffice(Model model) {
+        model.addAttribute("towns", this.townService.findAllTowns());
+
+        if (!model.containsAttribute("office")) {
+
+            model.addAttribute("office", new OfficeAddBindingModel());
+        }
         return "office-add";
     }
 
     @PostMapping("/add")
     public String postAddOffice(@Valid @ModelAttribute("office") OfficeAddBindingModel officeAddBindingModel,
-                                BindingResult bindingResult){
+                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("office", officeAddBindingModel);
+            redirectAttributes.addFlashAttribute
+                    ("org.springframework.validation.BindingResult.office", bindingResult);
+
             return "redirect:office-add";
-        }else {
+        } else {
+
             this.officeService.addOffice(this.modelMapper.map(officeAddBindingModel, OfficeServiceModel.class));
+
             return "redirect:/home";
         }
     }

@@ -24,12 +24,6 @@ public class TownServiceImpl implements TownService {
         return this.townRepository.findAll();
     }
 
-    @Override
-    public TownServiceModel findById(String id) {
-        return this.townRepository.findById(id)
-                .map(t->this.modelMapper.map(t,TownServiceModel.class))
-                .orElse(null);
-    }
 
     @Override
     public Town findByName(String name) {

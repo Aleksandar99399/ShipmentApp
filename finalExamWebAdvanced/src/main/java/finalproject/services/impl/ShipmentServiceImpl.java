@@ -32,6 +32,7 @@ public class ShipmentServiceImpl implements ShipmentService {
     @Override
     public ShipmentServiceModel addSender(ShipmentServiceModel shipSerMod,
                                           SenderOrRecipientServiceModel sender, SenderOrRecipientServiceModel recipient) {
+
         Shipment shipment=this.modelMapper.map(shipSerMod,Shipment.class);
 
         SenderOrRecipient senderEnt = this.modelMapper.map(sender, SenderOrRecipient.class);
@@ -57,19 +58,4 @@ public class ShipmentServiceImpl implements ShipmentService {
         return this.shipmentRepository.findAllByRecipients(email,isSender);
     }
 
-//    @Override
-//    public boolean findByEmail(String email) {
-//        return this.shipmentRepository.(email);
-//    }
-
-//    @Override
-//    public List<Shipment> allShipmentsOnUserRecipient(String email,boolean isSender) {
-//        return this.shipmentRepository.findAllByEmailAndSender(email,isSender);
-//    }
-
-//    @Override
-//    public List<Shipment> allShipmentsOnUser(UserServiceModel userServiceModel) {
-//
-//        return this.shipmentRepository.findByUser(this.modelMapper.map(userServiceModel,User.class));
-//    }
 }

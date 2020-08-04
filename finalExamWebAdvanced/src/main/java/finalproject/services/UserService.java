@@ -9,9 +9,7 @@ public interface UserService {
 
     void register(UserServiceModel userServiceModel);
 
-    void addShip(UserServiceModel userServiceModel);
 
     User saveUserRole(User user);
 
-    User findByRole(String email,String role);
 }

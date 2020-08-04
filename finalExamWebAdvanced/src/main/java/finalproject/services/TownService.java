@@ -9,11 +9,7 @@ public interface TownService {
 
     List<Town> findAllTowns();
 
-    TownServiceModel findById(String id);
-
     Town findByName(String name);
-
-
 
     void addTownAndOffice(Town office);
 }

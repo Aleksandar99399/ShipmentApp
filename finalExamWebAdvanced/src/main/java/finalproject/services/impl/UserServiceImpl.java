@@ -61,12 +61,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(user);
     }
 
-    @Override
-    public void addShip(UserServiceModel userServiceModel) {
-        User map = this.modelMapper.map(userServiceModel, User.class);
-        this.userRepository.save(map);
-
-    }
 
     @Override
     public User saveUserRole(User user) {
@@ -83,11 +77,5 @@ public class UserServiceImpl implements UserService {
         }
         return this.userRepository.save(updateUser);
     }
-
-    @Override
-    public User findByRole(String email,String role) {
-        return this.userRepository.findByRole(email,role);
-    }
-
 
 }

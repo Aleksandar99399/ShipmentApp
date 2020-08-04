@@ -11,12 +11,8 @@ public interface ShipmentService {
     ShipmentServiceModel addSender(ShipmentServiceModel shipSerMod,
                                    SenderOrRecipientServiceModel sender, SenderOrRecipientServiceModel recipient);
 
-
     UserServiceModel addUser(UserServiceModel userServiceModel);
 
     List<Shipment>findAllByRecipients(String email, boolean isSender);
 
-    //boolean findByEmail(String email);
-
-    //List<Shipment> allShipmentsOnUserRecipient(String  email,boolean isSender);
 }

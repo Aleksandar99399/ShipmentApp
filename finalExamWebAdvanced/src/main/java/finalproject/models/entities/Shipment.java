@@ -52,53 +52,6 @@ public class Shipment extends BaseEntity{
         return this;
     }
 
-    //    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public Shipment setFirstName(String firstName) {
-//        this.firstName = firstName;
-//        return this;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public Shipment setLastName(String lastName) {
-//        this.lastName = lastName;
-//        return this;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public Shipment setEmail(String email) {
-//        this.email = email;
-//        return this;
-//    }
-//
-//    public String getTelephoneNumber() {
-//        return telephoneNumber;
-//    }
-//
-//    public Shipment setTelephoneNumber(String telephoneNumber) {
-//        this.telephoneNumber = telephoneNumber;
-//        return this;
-//    }
-//
-//
-//    public boolean isSender() {
-//        return isSender;
-//    }
-//
-//    public Shipment setSender(boolean sender) {
-//        isSender = sender;
-//        return this;
-//    }
-
-
 
     @OneToMany(cascade = CascadeType.ALL)
     public List<SenderOrRecipient> getSenderOrRecipients() {

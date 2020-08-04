@@ -46,15 +46,6 @@ public class User extends BaseEntity{
         return this;
     }
 
-//   @Enumerated(EnumType.STRING)
-//   public SenderOrRecipient getSenderOrRecipient() {
-//       return senderOrRecipient;
-//   }
-//
-//   public User setSenderOrRecipient(SenderOrRecipient senderOrRecipient) {
-//       this.senderOrRecipient = senderOrRecipient;
-//       return this;
-//   }
 
     public User setLastName(String lastName) {
         this.lastName = lastName;

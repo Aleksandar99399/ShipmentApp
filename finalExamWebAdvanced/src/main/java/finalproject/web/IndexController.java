@@ -33,7 +33,6 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpSession session){
-        //TODO
         if(session.getAttribute("email")!=null){
             return "redirect:/home";
         }

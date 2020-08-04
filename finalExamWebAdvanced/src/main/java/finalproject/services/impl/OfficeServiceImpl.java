@@ -30,22 +30,24 @@ public class OfficeServiceImpl implements OfficeService {
 
         Town byName = this.townService.findByName(osm.getTown());
         Optional<Office> byName1 = this.officeRepository.findByName(osm.getName());
-        if (byName==null && byName1.isEmpty()){
-            Town town=new Town().setName(osm.getTown());
-            Office office=new Office().setTown(town).setName(osm.getName());
+        if (byName == null && byName1.isEmpty()) {
+
+            Town town = new Town().setName(osm.getTown());
+            Office office = new Office().setTown(town).setName(osm.getName());
             town.setOffices(List.of(office));
 
             this.townService.addTownAndOffice(town);
 
-        }else if (byName!=null && byName1.isEmpty()){
-            Office office=new Office().setName(osm.getName()).setTown(byName);
+        } else if (byName != null && byName1.isEmpty()) {
+            Office office = new Office().setName(osm.getName()).setTown(byName);
             byName.setOffices(List.of(office));
 
             this.townService.addTownAndOffice(byName);
-        }else if (byName!=null && byName1.isPresent()){
+
+        } else if (byName != null && byName1.isPresent()) {
             throw new OfficeIsExist();
         }
-        return this.modelMapper.map(osm,OfficeServiceModel.class);
+        return this.modelMapper.map(osm, OfficeServiceModel.class);
     }
 
     @Override
@@ -54,43 +56,13 @@ public class OfficeServiceImpl implements OfficeService {
         return this.officeRepository.findAll();
     }
 
-    @Override
-    public List<Office> findAllByTown(Town town) {
-
-        return this.officeRepository.findAllByTown(town);
-    }
-
-    @Override
-    public OfficeServiceModel findByName(String name) {
-
-        return this.officeRepository.findByName(name).
-                map(o->this.modelMapper.map(o,OfficeServiceModel.class))
-                .orElse(null);
-
-    }
 
     @Override
     public OfficeServiceModel findById(String id) {
+
         return this.officeRepository.findById(id)
-                .map(o->this.modelMapper.map(o,OfficeServiceModel.class))
+                .map(o -> this.modelMapper.map(o, OfficeServiceModel.class))
                 .orElse(null);
     }
 
-    @Override
-    public Office getOfficeFromDb(Office office) {
-        Office office1 = this.officeRepository.findByName(office.getName()).orElse(null);
-        Town town=this.townService.findByName(office.getTown().getName());
-        assert office1 != null;
-        office1.setTown(town);
-        return this.officeRepository.save(office1);
-    }
-
-    @Override
-    public OfficeServiceModel findByTown(Town town) {
-
-        return this.officeRepository.findByTown(town)
-                .map(off ->this.modelMapper.map(off,OfficeServiceModel.class))
-                .orElse(null);
-
-    }
 }

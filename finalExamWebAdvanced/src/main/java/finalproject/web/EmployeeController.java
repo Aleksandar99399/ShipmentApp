@@ -63,8 +63,6 @@ public class EmployeeController {
         }else {
             UserServiceModel userServiceModel = this.userService.emailNotExist(employeeAddBindingModel.getEmail());
             OfficeServiceModel officeServiceModel=this.officeService.findById(employeeAddBindingModel.getOffice());
-           //TownServiceModel townServiceModel=this.townService.findById(employeeAddBindingModel.getTown());
-           //OfficeServiceModel officeServiceModel=this.officeService.findByTown(this.modelMapper.map(townServiceModel, Town.class));
 
 
             if (userServiceModel==null || officeServiceModel==null){

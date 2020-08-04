@@ -20,30 +20,4 @@ public class SenderOrRecipientImpl implements SenderOrRecipientService {
         this.modelMapper = modelMapper;
     }
 
-    @Override
-    public boolean isExistSenderOrRecipient(String email) {
-        return this.repository.findByEmail(email);
-    }
-
-    @Override
-    public SenderOrRecipientServiceModel addSender(SenderOrRecipientServiceModel map) {
-        SenderOrRecipient sender = this.modelMapper.map(map, SenderOrRecipient.class);
-        sender.setSender(true);
-        this.repository.save(sender);
-        return this.modelMapper.map(sender,SenderOrRecipientServiceModel.class);
-    }
-
-    @Override
-    public SenderOrRecipientServiceModel addRecipient(SenderOrRecipientServiceModel map) {
-        SenderOrRecipient sender = this.modelMapper.map(map, SenderOrRecipient.class);
-        sender.setSender(false);
-        this.repository.save(sender);
-        return this.modelMapper.map(sender,SenderOrRecipientServiceModel.class);
-    }
-
-    @Override
-    public List<SenderOrRecipient> findAllBySender(boolean isSender) {
-
-        return this.repository.findAllBySender(isSender) ;
-    }
 }
