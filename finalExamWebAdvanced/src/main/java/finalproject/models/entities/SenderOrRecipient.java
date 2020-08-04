@@ -11,6 +11,7 @@ public class SenderOrRecipient extends BaseEntity {
     private String email;
     private String telephoneNumber;
     private boolean isSender;
+    private Office office;
 
     public String getFirstName() {
         return firstName;
@@ -57,4 +58,14 @@ public class SenderOrRecipient extends BaseEntity {
         return this;
     }
 
+    @OneToOne
+    @JoinColumn(name = "office_id")
+    public Office getOffice() {
+        return office;
+    }
+
+    public SenderOrRecipient setOffice(Office office) {
+        this.office = office;
+        return this;
+    }
 }

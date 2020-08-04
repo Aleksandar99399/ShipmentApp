@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class UserServiceModel {
+public class UserServiceModel extends BaseServiceModel{
     private String firstName;
     private String lastName;
     private String email;

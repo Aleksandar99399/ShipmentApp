@@ -1,5 +1,6 @@
 package finalproject.services.impl;
 
+import finalproject.errors.OfficeIsExist;
 import finalproject.models.entities.Office;
 import finalproject.models.entities.Town;
 import finalproject.models.serviceModels.OfficeServiceModel;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OfficeServiceImpl implements OfficeService {
@@ -26,9 +28,24 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public OfficeServiceModel addOffice(OfficeServiceModel osm) {
 
-        Office save = this.officeRepository.save(this.modelMapper.map(osm, Office.class));
+        Town byName = this.townService.findByName(osm.getTown());
+        Optional<Office> byName1 = this.officeRepository.findByName(osm.getName());
+        if (byName==null && byName1.isEmpty()){
+            Town town=new Town().setName(osm.getTown());
+            Office office=new Office().setTown(town).setName(osm.getName());
+            town.setOffices(List.of(office));
 
-        return this.modelMapper.map(save,OfficeServiceModel.class);
+            this.townService.addTownAndOffice(town);
+
+        }else if (byName!=null && byName1.isEmpty()){
+            Office office=new Office().setName(osm.getName()).setTown(byName);
+            byName.setOffices(List.of(office));
+
+            this.townService.addTownAndOffice(byName);
+        }else if (byName!=null && byName1.isPresent()){
+            throw new OfficeIsExist();
+        }
+        return this.modelMapper.map(osm,OfficeServiceModel.class);
     }
 
     @Override
@@ -66,5 +83,14 @@ public class OfficeServiceImpl implements OfficeService {
         assert office1 != null;
         office1.setTown(town);
         return this.officeRepository.save(office1);
+    }
+
+    @Override
+    public OfficeServiceModel findByTown(Town town) {
+
+        return this.officeRepository.findByTown(town)
+                .map(off ->this.modelMapper.map(off,OfficeServiceModel.class))
+                .orElse(null);
+
     }
 }

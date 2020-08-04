@@ -2,9 +2,11 @@ package finalproject.web;
 
 import finalproject.models.bindings.EmployeeAddBindingModel;
 import finalproject.models.entities.Office;
+import finalproject.models.entities.Town;
 import finalproject.models.entities.User;
 import finalproject.models.serviceModels.EmployeeServiceModel;
 import finalproject.models.serviceModels.OfficeServiceModel;
+import finalproject.models.serviceModels.TownServiceModel;
 import finalproject.models.serviceModels.UserServiceModel;
 import finalproject.services.EmployeeService;
 import finalproject.services.OfficeService;
@@ -61,14 +63,20 @@ public class EmployeeController {
         }else {
             UserServiceModel userServiceModel = this.userService.emailNotExist(employeeAddBindingModel.getEmail());
             OfficeServiceModel officeServiceModel=this.officeService.findById(employeeAddBindingModel.getOffice());
+           //TownServiceModel townServiceModel=this.townService.findById(employeeAddBindingModel.getTown());
+           //OfficeServiceModel officeServiceModel=this.officeService.findByTown(this.modelMapper.map(townServiceModel, Town.class));
+
 
             if (userServiceModel==null || officeServiceModel==null){
                 //TODO handle exception
                 return "redirect:add";
             } else {
-                EmployeeServiceModel serviceModel = this.modelMapper.map(employeeAddBindingModel, EmployeeServiceModel.class);
-                serviceModel.setUser(this.modelMapper.map(userServiceModel, User.class));
-                serviceModel.setOffice(this.modelMapper.map(officeServiceModel, Office.class));
+
+
+                EmployeeServiceModel serviceModel = new EmployeeServiceModel();
+                serviceModel.setUser(userServiceModel);
+                serviceModel.setOffice(officeServiceModel);
+                serviceModel.setPosition(employeeAddBindingModel.getPosition());
                 employeeService.addEmployee(serviceModel);
                 return "redirect:/home";
             }

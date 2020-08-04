@@ -1,32 +1,23 @@
 package finalproject.services.impl;
 
 import finalproject.models.entities.Role;
-import finalproject.models.entities.User;
-import finalproject.repositories.UserRepository;
+import finalproject.repositories.RoleRepository;
 import finalproject.services.RoleService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RoleServiceImpl implements RoleService {
 
+    private final RoleRepository roleRepository;
 
-    private final UserRepository userRepository;
-
-    public RoleServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
-    @Override
-    public void seedRoles() {
-    }
 
     @Override
-    public void addRole(User user) {
+    public Role findByName(String role) {
 
-        Role role =new Role("ROLE_EMPLOYEE");
-        user.getRoles().add(role);
-
-        userRepository.save(user);
-
+        return this.roleRepository.findByName(role).orElse(null);
     }
 }

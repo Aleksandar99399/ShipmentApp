@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 public class OfficeAddBindingModel {
 
     private String officeName;
-    private Town town;
+    private String town;
 
     @Length(min = 4,message = "Office name must be more than 3 characters")
     public String getOfficeName() {
@@ -18,11 +18,11 @@ public class OfficeAddBindingModel {
         return this;
     }
 
-    public Town getTown() {
+    public String getTown() {
         return town;
     }
 
-    public OfficeAddBindingModel setTown(Town town) {
+    public OfficeAddBindingModel setTown(String town) {
         this.town = town;
         return this;
     }

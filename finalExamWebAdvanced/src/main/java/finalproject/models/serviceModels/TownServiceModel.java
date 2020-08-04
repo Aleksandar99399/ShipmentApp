@@ -5,9 +5,9 @@ import finalproject.models.entities.Office;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TownServiceModel {
+public class TownServiceModel extends BaseServiceModel{
     private String name;
-    private List<Office> offices=new ArrayList<>();
+    private List<OfficeServiceModel> offices=new ArrayList<>();
 
     public TownServiceModel() {
     }
@@ -21,11 +21,11 @@ public class TownServiceModel {
         return this;
     }
 
-    public List<Office> getOffices() {
+    public List<OfficeServiceModel> getOffices() {
         return offices;
     }
 
-    public TownServiceModel setOffices(List<Office> offices) {
+    public TownServiceModel setOffices(List<OfficeServiceModel> offices) {
         this.offices = offices;
         return this;
     }

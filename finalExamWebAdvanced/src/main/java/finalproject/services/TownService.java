@@ -12,4 +12,8 @@ public interface TownService {
     TownServiceModel findById(String id);
 
     Town findByName(String name);
+
+
+
+    void addTownAndOffice(Town office);
 }

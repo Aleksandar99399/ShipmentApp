@@ -36,4 +36,10 @@ public class TownServiceImpl implements TownService {
 
         return this.townRepository.findByName(name).orElse(null);
     }
+
+    @Override
+    public void addTownAndOffice(Town office) {
+        this.townRepository.save(office);
+    }
+
 }

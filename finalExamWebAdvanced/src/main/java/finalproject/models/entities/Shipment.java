@@ -17,7 +17,6 @@ public class Shipment extends BaseEntity{
     private double weight;
     private BigDecimal price;
     private List<SenderOrRecipient> senderOrRecipients=new ArrayList<>();
-    private List<Office> offices;
 
 
 
@@ -111,13 +110,4 @@ public class Shipment extends BaseEntity{
         return this;
     }
 
-    @ManyToMany
-    public List<Office> getOffices() {
-        return offices;
-    }
-
-    public Shipment setOffices(List<Office> offices) {
-        this.offices = offices;
-        return this;
-    }
 }

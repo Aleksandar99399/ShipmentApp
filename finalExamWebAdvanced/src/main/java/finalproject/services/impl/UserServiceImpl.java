@@ -2,6 +2,7 @@ package finalproject.services.impl;
 
 import finalproject.errors.UserNotFoundException;
 import finalproject.errors.UserRegisterException;
+import finalproject.errors.UserToEmployee;
 import finalproject.models.entities.Role;
 import finalproject.models.entities.User;
 import finalproject.models.serviceModels.UserServiceModel;
@@ -70,10 +71,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUserRole(User user) {
         User updateUser=userRepository.findByEmail(user.getEmail()).orElseThrow(UserNotFoundException::new);
+
         Role role=new Role();
         role.setName("ROLE_EMPLOYEE");
-        updateUser.getRoles().add(role);
+
+        if (this.userRepository.findByRole(updateUser.getEmail(),role.getName())==null) {
+
+            updateUser.getRoles().add(role);
+        }else {
+            throw new UserToEmployee();
+        }
         return this.userRepository.save(updateUser);
+    }
+
+    @Override
+    public User findByRole(String email,String role) {
+        return this.userRepository.findByRole(email,role);
     }
 
 

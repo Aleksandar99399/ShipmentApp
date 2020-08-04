@@ -19,4 +19,6 @@ public interface OfficeService {
     OfficeServiceModel findById(String id);
 
     Office getOfficeFromDb(Office office);
+
+    OfficeServiceModel findByTown(Town town);
 }

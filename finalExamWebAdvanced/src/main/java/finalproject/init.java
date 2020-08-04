@@ -36,10 +36,14 @@ public class init implements CommandLineRunner {
 
             Town varna = new Town().setName("Varna");
             Office asparuhovo = new Office().setTown(varna).setName("Asparuhovo");
-            Office galata = new Office().setTown(varna).setName("Galata");
+            Office galata = new Office().setTown(varna).setName("Garata");
             varna.setOffices(List.of(asparuhovo, galata));
 
-            townRepository.saveAll(List.of(sofia, plovdiv, varna));
+            Town goceDelchev=new Town().setName("Goce Delchev");
+            Office kulata=new Office().setTown(goceDelchev).setName("Kulata");
+            goceDelchev.setOffices(List.of(kulata));
+
+            townRepository.saveAll(List.of(sofia, plovdiv, varna,goceDelchev));
         }
     }
 }

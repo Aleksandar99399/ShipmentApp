@@ -36,10 +36,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void addEmployee(EmployeeServiceModel serviceModel) {
 
         Employee employee=this.modelMapper.map(serviceModel,Employee.class);
-        User user=this.userService.saveUserRole(serviceModel.getUser());
-        Office officeFromDb = this.officeService.getOfficeFromDb(serviceModel.getOffice());
 
-        employee.setOffice(officeFromDb);
+
+        User user=this.userService.saveUserRole(this.modelMapper.map(serviceModel.getUser(),User.class));
+
         employee.setUser(user);
 
         this.employeeRepository.save(employee);

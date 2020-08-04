@@ -6,10 +6,10 @@ import finalproject.models.entities.Town;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfficeServiceModel {
+public class OfficeServiceModel extends BaseServiceModel{
     private String name;
 
-    private Town town;
+    private String town;
 
     public String getName() {
         return name;
@@ -21,11 +21,11 @@ public class OfficeServiceModel {
     }
 
 
-    public Town getTown() {
+    public String getTown() {
         return town;
     }
 
-    public OfficeServiceModel setTown(Town town) {
+    public OfficeServiceModel setTown(String town) {
         this.town = town;
         return this;
     }

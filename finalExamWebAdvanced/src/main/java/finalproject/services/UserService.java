@@ -12,4 +12,6 @@ public interface UserService {
     void addShip(UserServiceModel userServiceModel);
 
     User saveUserRole(User user);
+
+    User findByRole(String email,String role);
 }

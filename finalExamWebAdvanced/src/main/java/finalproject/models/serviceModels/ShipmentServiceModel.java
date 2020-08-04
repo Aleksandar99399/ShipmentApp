@@ -8,12 +8,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShipmentServiceModel {
+public class ShipmentServiceModel extends BaseServiceModel{
     private String description;
     private double weight;
     private BigDecimal price;
     private List<SenderOrRecipient> senderOrRecipients=new ArrayList<>();
-    private List<Office> offices;
 
     public String getDescription() {
         return description;
@@ -52,12 +51,4 @@ public class ShipmentServiceModel {
         return this;
     }
 
-    public List<Office> getOffices() {
-        return offices;
-    }
-
-    public ShipmentServiceModel setOffices(List<Office> offices) {
-        this.offices = offices;
-        return this;
-    }
 }

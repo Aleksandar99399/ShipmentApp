@@ -94,6 +94,7 @@ public class ShipmentController {
                 senderModel.setTelephoneNumber(shipmentAddBindingModel.getTelephoneNumber());
                 senderModel.setFirstName(shipmentAddBindingModel.getFirstName());
                 senderModel.setLastName(shipmentAddBindingModel.getLastName());
+                senderModel.setOffice(officeSender);
                 senderModel.setSender(true);
 
 
@@ -102,10 +103,11 @@ public class ShipmentController {
                 recipientModel.setTelephoneNumber(shipmentAddBindingModel.getTelephoneNumberRec());
                 recipientModel.setFirstName(shipmentAddBindingModel.getFirstNameRec());
                 recipientModel.setLastName(shipmentAddBindingModel.getLastNameRec());
+                recipientModel.setOffice(officeRecipient);
                 recipientModel.setSender(false);
 
 
-                this.shipmentService.addSender(this.modelMapper.map(shipmentAddBindingModel,ShipmentServiceModel.class), senderModel,recipientModel,officeSender,officeRecipient);
+                this.shipmentService.addSender(this.modelMapper.map(shipmentAddBindingModel,ShipmentServiceModel.class), senderModel,recipientModel);
 
                 return "redirect:/home";
             }

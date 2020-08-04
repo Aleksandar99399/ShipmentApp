@@ -1,5 +1,7 @@
 package finalproject.models.entities;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,7 +22,7 @@ public class Employee extends BaseEntity{
         return this;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     public Office getOffice() {
         return office;
     }
