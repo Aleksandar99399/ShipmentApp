@@ -1,7 +1,7 @@
 package finalproject.services;
 
+import finalproject.models.entities.Office;
 import finalproject.models.entities.Town;
-import finalproject.models.serviceModels.TownServiceModel;
 
 import java.util.List;
 
@@ -12,4 +12,6 @@ public interface TownService {
     Town findByName(String name);
 
     void addTownAndOffice(Town office);
+
+    Office saveAdminInOfficeAndEmployee();
 }

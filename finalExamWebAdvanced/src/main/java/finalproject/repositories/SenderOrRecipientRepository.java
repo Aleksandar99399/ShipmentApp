@@ -9,7 +9,4 @@ import java.util.List;
 @Repository
 public interface SenderOrRecipientRepository extends JpaRepository<SenderOrRecipient,String> {
 
-    boolean findByEmail(String email);
-
-    List<SenderOrRecipient> findAllBySender(boolean isSender);
 }

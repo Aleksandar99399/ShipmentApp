@@ -20,7 +20,6 @@ public class OfficeServiceModel extends BaseServiceModel{
         return this;
     }
 
-
     public String getTown() {
         return town;
     }

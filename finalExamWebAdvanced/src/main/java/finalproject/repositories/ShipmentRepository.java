@@ -1,5 +1,6 @@
 package finalproject.repositories;
 
+import finalproject.models.entities.Office;
 import finalproject.models.entities.SenderOrRecipient;
 import finalproject.models.entities.Shipment;
 import finalproject.models.entities.User;
@@ -19,5 +20,8 @@ public interface ShipmentRepository extends JpaRepository<Shipment,String> {
 
 
     @Query(value = "SELECT s FROM Shipment s join s.senderOrRecipients sr WHERE sr.email=:email and sr.sender=:sender")
-    List<Shipment> findAllByRecipients(@Param("email") String email,@Param("sender") boolean isSender);
+    List<Shipment> findAllByShipmentsOnUser(@Param("email") String email,@Param("sender") boolean isSender);
+
+    @Query(value = "SELECT s FROM Shipment s join s.senderOrRecipients sr WHERE sr.sender=:sender and sr.office=:office")
+    List<Shipment> findAllByRecipients(@Param("sender") boolean isSender,@Param("office") Office office);
 }

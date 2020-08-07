@@ -1,5 +1,6 @@
 package finalproject.services;
 
+import finalproject.models.entities.Office;
 import finalproject.models.entities.Shipment;
 import finalproject.models.serviceModels.SenderOrRecipientServiceModel;
 import finalproject.models.serviceModels.ShipmentServiceModel;
@@ -13,6 +14,8 @@ public interface ShipmentService {
 
     UserServiceModel addUser(UserServiceModel userServiceModel);
 
-    List<Shipment>findAllByRecipients(String email, boolean isSender);
+    List<Shipment>findAllByRecipients(boolean isSender,Office office);
+
+    List<Shipment> findAllShipmentsOnUser(String email,boolean isSender);
 
 }

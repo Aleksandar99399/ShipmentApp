@@ -3,8 +3,10 @@ package finalproject.services.impl;
 import finalproject.errors.OfficeIsExist;
 import finalproject.models.entities.Office;
 import finalproject.models.entities.Town;
+import finalproject.models.entities.User;
 import finalproject.models.serviceModels.OfficeServiceModel;
 import finalproject.repositories.OfficeRepository;
+import finalproject.services.EmployeeService;
 import finalproject.services.OfficeService;
 import finalproject.services.TownService;
 import org.modelmapper.ModelMapper;
@@ -64,5 +66,12 @@ public class OfficeServiceImpl implements OfficeService {
                 .map(o -> this.modelMapper.map(o, OfficeServiceModel.class))
                 .orElse(null);
     }
+
+    @Override
+    public void addGlavenOffice(Office glaven) {
+        this.officeRepository.save(glaven);
+    }
+
+
 
 }

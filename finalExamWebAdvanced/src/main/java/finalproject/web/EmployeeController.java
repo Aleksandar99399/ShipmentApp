@@ -1,6 +1,11 @@
 package finalproject.web;
 
+import finalproject.errors.OfficeIsExist;
+import finalproject.errors.OfficeNotFoundException;
+import finalproject.errors.UserNotFoundException;
 import finalproject.models.bindings.EmployeeAddBindingModel;
+import finalproject.models.bindings.EmployeeLoginBindingModel;
+import finalproject.models.entities.Employee;
 import finalproject.models.entities.Office;
 import finalproject.models.entities.Town;
 import finalproject.models.entities.User;
@@ -21,13 +26,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/employees")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+
 public class EmployeeController {
 
     private final TownService townService;
@@ -44,32 +50,46 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add")
     public String addEmployee(Model model){
         model.addAttribute("towns",this.townService.findAllTowns());
-        model.addAttribute("empl",new EmployeeAddBindingModel());
         model.addAttribute("offices",officeService.findAllOffices());
+        if (!model.containsAttribute("empl")) {
+            model.addAttribute("empl", new EmployeeAddBindingModel());
+        }
         return "employee-add";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public String postAddEmployee(@Valid @ModelAttribute("empl") EmployeeAddBindingModel employeeAddBindingModel,
                                   BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
-        //RedirectAddFlashAttributes
         if (bindingResult.hasErrors()){
-            //redirectAttributes.addFlashAttribute()
+            redirectAttributes.addFlashAttribute("empl", employeeAddBindingModel);
+            redirectAttributes.addFlashAttribute
+                    ("org.springframework.validation.BindingResult.empl", bindingResult);
+
             return "redirect:add";
         }else {
             UserServiceModel userServiceModel = this.userService.emailNotExist(employeeAddBindingModel.getEmail());
             OfficeServiceModel officeServiceModel=this.officeService.findById(employeeAddBindingModel.getOffice());
 
 
-            if (userServiceModel==null || officeServiceModel==null){
-                //TODO handle exception
-                return "redirect:add";
-            } else {
+            if (userServiceModel==null){
 
+                redirectAttributes.addFlashAttribute("empl", employeeAddBindingModel);
+                redirectAttributes.addFlashAttribute
+                        ("org.springframework.validation.BindingResult.empl", bindingResult);
+
+                throw new UserNotFoundException();
+
+            }else if (officeServiceModel==null){
+
+                throw new OfficeNotFoundException();
+
+            } else {
 
                 EmployeeServiceModel serviceModel = new EmployeeServiceModel();
                 serviceModel.setUser(userServiceModel);
@@ -80,4 +100,54 @@ public class EmployeeController {
             }
         }
     }
+
+
+    @GetMapping("/login")
+    public String getLoginAsEmployee(Model model){
+
+        model.addAttribute("towns",this.townService.findAllTowns());
+
+        if (!model.containsAttribute("employeeLoginBindingModel")){
+            model.addAttribute("employeeLoginBindingModel",new EmployeeLoginBindingModel());
+        }
+        return "login-employee";
+    }
+
+
+    @PostMapping("/login")
+    public ModelAndView postLoginAsEmployee(@Valid @ModelAttribute("employeeLoginBindingModel") EmployeeLoginBindingModel employeeLoginBindingModel,
+                                            BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        ModelAndView modelAndView=new ModelAndView();
+        if (bindingResult.hasErrors()){
+
+            bindingResult.rejectValue("email", "email", "The email or password are incorrect!");
+
+            redirectAttributes.addFlashAttribute("employeeLoginBindingModel", employeeLoginBindingModel);
+            redirectAttributes.addFlashAttribute
+                    ("org.springframework.validation.BindingResult.employeeLoginBindingModel", bindingResult);
+
+            modelAndView.setViewName("login");
+        }else {
+
+            UserServiceModel userServiceModel=this.userService.emailNotExist(employeeLoginBindingModel.getEmail());
+            User user = this.modelMapper.map(userServiceModel, User.class);
+            OfficeServiceModel officeServiceModel=this.officeService.findById(employeeLoginBindingModel.getOffice());
+            Office office = this.modelMapper.map(officeServiceModel, Office.class);
+
+            if (!this.userService.comparePasswords(user.getPassword(),employeeLoginBindingModel.getPassword())){
+                modelAndView.setViewName("login");
+            }
+
+
+            Employee employee = this.employeeService.findByUserAndOffice(user,office);
+            if (employee==null){
+                //Todo exception
+                modelAndView.setViewName("login");
+            }
+        }
+        modelAndView.setViewName("home");
+        return modelAndView;
+    }
+
 }

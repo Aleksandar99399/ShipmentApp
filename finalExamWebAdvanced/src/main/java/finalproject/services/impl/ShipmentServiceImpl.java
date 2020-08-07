@@ -1,5 +1,6 @@
 package finalproject.services.impl;
 
+import finalproject.models.entities.Office;
 import finalproject.models.entities.SenderOrRecipient;
 import finalproject.models.entities.Shipment;
 import finalproject.models.serviceModels.SenderOrRecipientServiceModel;
@@ -53,9 +54,15 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public List<Shipment> findAllByRecipients(String email, boolean isSender) {
+    public List<Shipment> findAllByRecipients(boolean isSender,Office office) {
 
-        return this.shipmentRepository.findAllByRecipients(email,isSender);
+        return this.shipmentRepository.findAllByRecipients(isSender,office);
+    }
+
+    @Override
+    public List<Shipment> findAllShipmentsOnUser(String email, boolean isSender) {
+
+        return this.shipmentRepository.findAllByShipmentsOnUser(email,isSender);
     }
 
 }

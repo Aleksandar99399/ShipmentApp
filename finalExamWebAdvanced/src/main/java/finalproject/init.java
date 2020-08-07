@@ -1,13 +1,13 @@
 package finalproject;
 
-import finalproject.models.entities.Office;
-import finalproject.models.entities.Role;
-import finalproject.models.entities.Town;
-import finalproject.models.entities.User;
+import finalproject.models.entities.*;
+import finalproject.models.serviceModels.EmployeeServiceModel;
+import finalproject.models.serviceModels.OfficeServiceModel;
 import finalproject.repositories.TownRepository;
-import finalproject.repositories.UserRepository;
+import finalproject.services.EmployeeService;
+import finalproject.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,9 +15,15 @@ import java.util.List;
 @Component
 public class init implements CommandLineRunner {
     private final TownRepository townRepository;
+    private final EmployeeService employeeService;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
 
-    public init(TownRepository townRepository) {
+    public init(TownRepository townRepository, EmployeeService employeeService, UserService userService, ModelMapper modelMapper) {
         this.townRepository = townRepository;
+        this.employeeService = employeeService;
+        this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -39,11 +45,15 @@ public class init implements CommandLineRunner {
             Office galata = new Office().setTown(varna).setName("Garata");
             varna.setOffices(List.of(asparuhovo, galata));
 
-            Town goceDelchev=new Town().setName("Goce Delchev");
-            Office kulata=new Office().setTown(goceDelchev).setName("Kulata");
-            goceDelchev.setOffices(List.of(kulata));
 
-            townRepository.saveAll(List.of(sofia, plovdiv, varna,goceDelchev));
+
+
+            townRepository.saveAll(List.of(sofia, plovdiv, varna));
+
+//            EmployeeServiceModel employeeServiceModel=new EmployeeServiceModel();
+//            employeeServiceModel.setUser(this.userService.emailNotExist("sasho@sds.bg"));
+//            employeeServiceModel.setOffice(this.modelMapper.map(centralen, OfficeServiceModel.class));
+//            this.employeeService.addEmployee(employeeServiceModel);
         }
     }
 }

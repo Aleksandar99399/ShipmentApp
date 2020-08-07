@@ -1,7 +1,7 @@
 package finalproject.services.impl;
 
+import finalproject.models.entities.Office;
 import finalproject.models.entities.Town;
-import finalproject.models.serviceModels.TownServiceModel;
 import finalproject.repositories.TownRepository;
 import finalproject.services.TownService;
 import org.modelmapper.ModelMapper;
@@ -34,6 +34,17 @@ public class TownServiceImpl implements TownService {
     @Override
     public void addTownAndOffice(Town office) {
         this.townRepository.save(office);
+    }
+
+    @Override
+    public Office saveAdminInOfficeAndEmployee() {
+        Town goceDelchev=new Town().setName("Goce Delchev");
+        Office office=new Office().setTown(goceDelchev).setName("Central Office");
+        goceDelchev.setOffices(List.of(office));
+
+        this.townRepository.save(goceDelchev);
+
+        return office;
     }
 
 }

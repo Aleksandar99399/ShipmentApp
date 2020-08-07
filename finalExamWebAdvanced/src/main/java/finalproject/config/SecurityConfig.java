@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                .antMatchers("/**").permitAll()
                .antMatchers("/users/login**").permitAll()
                .antMatchers("/users/register**").permitAll()
+               .antMatchers("/employees/login**").permitAll()
                .antMatchers("/home**").authenticated()
                .and()
                .formLogin()
@@ -51,11 +52,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .passwordParameter("password")
                     .failureForwardUrl("/users/login-error")
                     .defaultSuccessUrl("/home")
+                    .loginPage("/employees/login")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .failureForwardUrl("/users/login-error")
+                    .defaultSuccessUrl("/home")
                .and()
                .logout()
                     .logoutUrl("/logout")
                     .invalidateHttpSession(true)
-                    .logoutSuccessUrl("/");
+                    .logoutSuccessUrl("/")
+                    .deleteCookies("JSESSIONID");
 
 
 
