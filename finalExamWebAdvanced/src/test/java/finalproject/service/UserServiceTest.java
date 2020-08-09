@@ -1,7 +1,6 @@
 package finalproject.service;
 
 
-import finalproject.TestBase;
 import finalproject.models.entities.Role;
 import finalproject.models.entities.User;
 import finalproject.models.serviceModels.UserServiceModel;
@@ -28,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class UserServiceTest extends TestBase {
+public class UserServiceTest  {
 
 
     @Autowired
