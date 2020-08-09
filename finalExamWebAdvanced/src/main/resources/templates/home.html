@@ -12,16 +12,8 @@
 <main>
     <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         <div class="container bg-blur rounded mt-5 ">
-            <h1>Welcome to Shopping List App</h1>
-            <hr class="my-3 bg-white w-50"/>
-            <p class="h4">The application is here to help us keep in mind our shopping needs.</p>
-            <hr class="my-3 bg-white w-75" />
-            <h3>
-                <a class="text-primay" href="/">Login</a>
-                if you have an account or
-                <a class="text-primay" href="/">Register</a>
-                now and check our deals.
-            </h3>
+            <p class="h4">You are admin and you can see all information in Scorpio</p>
+
         </div>
     </th:block>
     <div sec:authorize="hasRole('ROLE_EMPLOYEE')" class="container bg-blur rounded mt-5 mb-4">
@@ -48,6 +40,11 @@
         </div>
     </div>
     <div sec:authorize="hasRole('ROLE_USER')" class="container bg-blur rounded mt-5 mb-4">
+        <div class="container bg-blur rounded mt-5 ">
+            <hr class="my-3 bg-white w-50"/>
+            <p class="h4">Now you can see your shipments.</p>
+
+        </div>
         <h1>All shipments from/to me</h1>
         <div class="row mt-3 mb-3">
             <div class="col-5 bg-dark rounded m-auto" style="height: 30vh; overflow: auto">

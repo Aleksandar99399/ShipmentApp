@@ -89,23 +89,8 @@ public class ShipmentController {
                 return "redirect:add";
             } else {
 
-                SenderOrRecipientServiceModel senderModel = new SenderOrRecipientServiceModel();
-                senderModel.setEmail(shipmentAddBindingModel.getEmail());
-                senderModel.setTelephoneNumber(shipmentAddBindingModel.getTelephoneNumber());
-                senderModel.setFirstName(shipmentAddBindingModel.getFirstName());
-                senderModel.setLastName(shipmentAddBindingModel.getLastName());
-                senderModel.setOffice(officeSender);
-                senderModel.setSender(true);
-
-
-                SenderOrRecipientServiceModel recipientModel = new SenderOrRecipientServiceModel();
-                recipientModel.setEmail(shipmentAddBindingModel.getEmailRec());
-                recipientModel.setTelephoneNumber(shipmentAddBindingModel.getTelephoneNumberRec());
-                recipientModel.setFirstName(shipmentAddBindingModel.getFirstNameRec());
-                recipientModel.setLastName(shipmentAddBindingModel.getLastNameRec());
-                recipientModel.setOffice(officeRecipient);
-                recipientModel.setSender(false);
-
+                SenderOrRecipientServiceModel senderModel = getSender(officeSender, shipmentAddBindingModel.getEmail(), shipmentAddBindingModel.getTelephoneNumber(), shipmentAddBindingModel.getFirstName(), shipmentAddBindingModel.getLastName(), true);
+                SenderOrRecipientServiceModel recipientModel = getRecipient(officeRecipient, shipmentAddBindingModel.getEmailRec(), shipmentAddBindingModel.getTelephoneNumberRec(), shipmentAddBindingModel.getFirstNameRec(), shipmentAddBindingModel.getLastNameRec(), false);
 
                 this.shipmentService.addSender(this.modelMapper.map(shipmentAddBindingModel, ShipmentServiceModel.class), senderModel, recipientModel);
 
@@ -113,6 +98,22 @@ public class ShipmentController {
             }
 
         }
+    }
+
+    private SenderOrRecipientServiceModel getRecipient(OfficeServiceModel officeRecipient, String emailRec, String telephoneNumberRec, String firstNameRec, String lastNameRec, boolean b) {
+        SenderOrRecipientServiceModel recipientModel = new SenderOrRecipientServiceModel();
+        recipientModel.setEmail(emailRec);
+        recipientModel.setTelephoneNumber(telephoneNumberRec);
+        recipientModel.setFirstName(firstNameRec);
+        recipientModel.setLastName(lastNameRec);
+        recipientModel.setOffice(officeRecipient);
+        recipientModel.setSender(b);
+        return recipientModel;
+    }
+
+    private SenderOrRecipientServiceModel getSender(OfficeServiceModel officeSender, String email, String telephoneNumber, String firstName, String lastName, boolean b) {
+        SenderOrRecipientServiceModel senderModel = getRecipient(officeSender, email, telephoneNumber, firstName, lastName, b);
+        return senderModel;
     }
 
 }

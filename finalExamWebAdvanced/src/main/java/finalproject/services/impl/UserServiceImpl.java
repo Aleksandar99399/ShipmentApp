@@ -9,6 +9,7 @@ import finalproject.repositories.UserRepository;
 import finalproject.services.TownService;
 import finalproject.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final TownService townService;
 
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, TownService townService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
@@ -31,6 +33,8 @@ public class UserServiceImpl implements UserService {
 
         this.townService = townService;
     }
+
+
 
     @Override
     public UserServiceModel emailNotExist(String email) {

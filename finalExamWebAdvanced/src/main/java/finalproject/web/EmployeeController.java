@@ -102,52 +102,5 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/login")
-    public String getLoginAsEmployee(Model model){
-
-        model.addAttribute("towns",this.townService.findAllTowns());
-
-        if (!model.containsAttribute("employeeLoginBindingModel")){
-            model.addAttribute("employeeLoginBindingModel",new EmployeeLoginBindingModel());
-        }
-        return "login-employee";
-    }
-
-
-    @PostMapping("/login")
-    public ModelAndView postLoginAsEmployee(@Valid @ModelAttribute("employeeLoginBindingModel") EmployeeLoginBindingModel employeeLoginBindingModel,
-                                            BindingResult bindingResult, RedirectAttributes redirectAttributes){
-
-        ModelAndView modelAndView=new ModelAndView();
-        if (bindingResult.hasErrors()){
-
-            bindingResult.rejectValue("email", "email", "The email or password are incorrect!");
-
-            redirectAttributes.addFlashAttribute("employeeLoginBindingModel", employeeLoginBindingModel);
-            redirectAttributes.addFlashAttribute
-                    ("org.springframework.validation.BindingResult.employeeLoginBindingModel", bindingResult);
-
-            modelAndView.setViewName("login");
-        }else {
-
-            UserServiceModel userServiceModel=this.userService.emailNotExist(employeeLoginBindingModel.getEmail());
-            User user = this.modelMapper.map(userServiceModel, User.class);
-            OfficeServiceModel officeServiceModel=this.officeService.findById(employeeLoginBindingModel.getOffice());
-            Office office = this.modelMapper.map(officeServiceModel, Office.class);
-
-            if (!this.userService.comparePasswords(user.getPassword(),employeeLoginBindingModel.getPassword())){
-                modelAndView.setViewName("login");
-            }
-
-
-            Employee employee = this.employeeService.findByUserAndOffice(user,office);
-            if (employee==null){
-                //Todo exception
-                modelAndView.setViewName("login");
-            }
-        }
-        modelAndView.setViewName("home");
-        return modelAndView;
-    }
 
 }
