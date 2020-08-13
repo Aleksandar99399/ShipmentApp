@@ -10,18 +10,15 @@ import finalproject.repositories.UserRepository;
 import finalproject.services.UserService;
 
 
-import finalproject.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
@@ -30,51 +27,18 @@ import java.util.List;
 import java.util.Optional;
 
 
-import finalproject.models.entities.Role;
-import finalproject.models.entities.User;
-import finalproject.models.serviceModels.UserServiceModel;
-
-import finalproject.repositories.UserRepository;
-
-import finalproject.services.TownService;
-import finalproject.services.UserService;
-
-
-import finalproject.services.impl.UserServiceImpl;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-
-import static org.springframework.test.util.AssertionErrors.assertEquals;
-
-
-import java.util.List;
-import java.util.Optional;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-@ExtendWith(MockitoExtension.class)
 public class UserServiceTest  {
 
-    private UserService serviceToTest;
+
+    @Autowired
+    private UserService userService;
 
     @Mock
-    private UserRepository mockUserRepository;
+    private UserRepository userRepository;
 
-    @Mock
-    private TownService townService;
-
-    @BeforeEach
-    public void setUp() {
-        serviceToTest = new UserServiceImpl(mockUserRepository,
-                new ModelMapper(),
-                new BCryptPasswordEncoder(),
-                townService);
+    @AfterEach
+    public void delete() {
+        this.userRepository.deleteAll();
     }
 
     private User getUser() {
@@ -93,16 +57,16 @@ public class UserServiceTest  {
 
     @Test
     public void findUserByEmailCorrect() {
-        //arrange
-        User testUser = getUser();
-        Mockito.when(this.mockUserRepository.findByEmail(testUser.getEmail())).thenReturn(Optional.of(testUser));
+        User user = getUser();
+
+        Mockito.when(this.userRepository.findByEmail("divoto@abv.bg")).thenReturn(Optional.of(user));
 
         //act
-        UserServiceModel userServiceModel = this.serviceToTest.emailNotExist(testUser.getEmail());
+        UserServiceModel userServiceModel = this.userService.emailNotExist("divoto@abv.bg");
 
 
         //assert
-        Assertions.assertEquals(userServiceModel.getEmail(), testUser.getEmail());
+        assertEquals("yes", userServiceModel.getEmail(), user.getEmail());
 
 //        //ARRANGE
 //        Optional<User> byEmail = this.userRepository.findByEmail("divoto@abv.bg");
