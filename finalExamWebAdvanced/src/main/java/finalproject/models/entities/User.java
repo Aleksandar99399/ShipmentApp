@@ -19,72 +19,22 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends BaseEntity{
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String telephoneNumber;
+
     private String password;
     private List<Role> role =new ArrayList<>();
 
     public User() {
     }
 
-    @Column(name = "first_name",nullable = false)
-    @Length(min = 3,message = "Incorrect name")
-    public String getFirstName() {
-        return firstName;
-    }
-
-    @Column(name = "last_name",nullable = false)
-    @Length(min = 3,message = "Incorrect name")
-    public String getLastName() {
-        return lastName;
-    }
-
-    public User setFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-
-    public User setLastName(String lastName) {
-        this.lastName = lastName;
-        return this;
-    }
-
-    public User setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    @Pattern(regexp = "^[0-9\\-\\+]{10}$",message = "Enter valid telephone number")
+    @Length(min = 4,message = "Enter valid password")
     @NotNull
-    @Column(name = "telephone_number")
-    public String getTelephoneNumber() {
-        return telephoneNumber;
-    }
-
-    public User setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
-        return this;
+    public String getPassword() {
+        return password;
     }
 
     public User setPassword(String password) {
         this.password = password;
         return this;
-    }
-
-    @Size(min = 1,message = "The email cannot be empty!")
-    @Email(message = "The email is not valid!")
-    @Column(name = "email",unique = true)
-    public String getEmail() {
-        return email;
-    }
-
-    @Length(min = 4,message = "Enter valid password")
-    @NotNull
-    public String getPassword() {
-        return password;
     }
 
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
@@ -99,16 +49,6 @@ public class User extends BaseEntity{
     }
 
 
-//    @ManyToMany
-//    @LazyCollection(value = LazyCollectionOption.FALSE)
-//    public List<Shipment> getShipments() {
-//        return shipments;
-//    }
-//
-//    public User setShipments(List<Shipment> shipments) {
-//        this.shipments = shipments;
-//        return this;
-//    }
 
 
 }

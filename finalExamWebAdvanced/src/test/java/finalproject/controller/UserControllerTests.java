@@ -35,7 +35,7 @@ public class UserControllerTests {
     @BeforeEach
     public void setUp() {
 
-        userRepository.deleteAll();
+        //userRepository.deleteAll();
 
         User user = new User();
 
@@ -47,6 +47,7 @@ public class UserControllerTests {
 
         user.setRoles(List.of(roleEmployee, roleAdmin, roleUser));
 
+        user.setId("1");
         user.setEmail("sando@abv.bg");
         user.setPassword("1234");
         user.setTelephoneNumber("0896811826");
@@ -58,7 +59,7 @@ public class UserControllerTests {
 
     @AfterEach
     public void setDown() {
-        this.userRepository.deleteAll();
+//        this.userRepository.deleteAll();
     }
 
 
@@ -67,7 +68,7 @@ public class UserControllerTests {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/users/register"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/register"))
+                .andExpect(view().name("register"))
                 .andExpect(model().attributeExists("userRegisterBindingModel"));
     }
 

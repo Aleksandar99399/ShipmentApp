@@ -18,15 +18,11 @@ import java.security.Principal;
 @Controller
 public class IndexController {
 
-    private final UserService userService;
     private final ShipmentService shipmentService;
-    private final ShipmentRepository shipmentRepository;
     private final EmployeeService employeeService;
 
-    public IndexController(UserService userService, ShipmentService shipmentService, ShipmentRepository shipmentRepository, EmployeeService employeeService) {
-        this.userService = userService;
+    public IndexController(ShipmentService shipmentService, EmployeeService employeeService) {
         this.shipmentService = shipmentService;
-        this.shipmentRepository = shipmentRepository;
         this.employeeService = employeeService;
     }
 

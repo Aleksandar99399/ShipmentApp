@@ -23,16 +23,14 @@ public class ShipmentController {
     private final ShipmentService shipmentService;
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final SenderOrRecipientService senderOrRecipientService;
 
 
-    public ShipmentController(TownService townService, OfficeService officeService, ShipmentService shipmentService, UserService userService, ModelMapper modelMapper, SenderOrRecipientService senderOrRecipientService) {
+    public ShipmentController(TownService townService, OfficeService officeService, ShipmentService shipmentService, UserService userService, ModelMapper modelMapper) {
         this.townService = townService;
         this.officeService = officeService;
         this.shipmentService = shipmentService;
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.senderOrRecipientService = senderOrRecipientService;
 
 
     }
@@ -53,14 +51,14 @@ public class ShipmentController {
 
     @PostMapping("/add")
     public String postAddSender(@Valid @ModelAttribute("shipmentAddBindingModel") ShipmentAddBindingModel shipmentAddBindingModel,
-                                BindingResult bindingResult, RedirectAttributes redirectAttributes,
-                                Model model) {
+                    BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("shipmentAddBindingModel", shipmentAddBindingModel);
-            redirectAttributes.addFlashAttribute
-                    ("org.springframework.validation.BindingResult.shipmentAddBindingModel", bindingResult);
-            return "redirect:add";
+                if (bindingResult.hasErrors()) {
+
+                    redirectAttributes.addFlashAttribute("shipmentAddBindingModel", shipmentAddBindingModel);
+                    redirectAttributes.addFlashAttribute
+                            ("org.springframework.validation.BindingResult.shipmentAddBindingModel", bindingResult);
+                    return "redirect:add";
         } else {
             UserServiceModel userServiceModel =
                     this.userService.emailNotExist(shipmentAddBindingModel.getEmail());
