@@ -75,14 +75,20 @@ public class UserServiceTest  {
         //assert
         Assertions.assertEquals(userServiceModel.getEmail(), testUser.getEmail());
 
-//        //ARRANGE
-//        Optional<User> byEmail = this.userRepository.findByEmail("divoto@abv.bg");
-//
-//
-//           //ACT
-//        UserServiceModel actual=this.userService.emailNotExist("divoto@abv.bg");
-//
-//        //ASSERT
-//        assertTrue("yes",byEmail.isPresent());
+    }
+
+    @Test
+    public void findUserByEmailInCorrect() {
+        //arrange
+        User testUser = getUser();
+        Mockito.when(this.mockUserRepository.findByEmail("divoto@abv.bg")).thenReturn(Optional.empty());
+
+        //act
+        UserServiceModel userServiceModel = this.serviceToTest.emailNotExist("email");
+
+
+        //assert
+        Assertions.assertNull(userServiceModel.getEmail());
+
     }
 }
